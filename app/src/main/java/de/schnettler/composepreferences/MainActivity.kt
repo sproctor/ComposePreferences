@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
-import com.tfcporciuncula.flow.FlowSharedPreferences
 import de.schnettler.composepreferences.ui.ComposePreferencesTheme
 import kotlin.math.roundToInt
 
@@ -20,11 +19,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = FlowSharedPreferences(this.defaultSharedPrefs())
-
         setContent {
             ComposePreferencesTheme {
-                ProvidePreferences(sharedPreferences = sharedPreferences) {
+                ProvidePreferences(this) {
                     Scaffold(
                         topBar = {
                             TopAppBar(
@@ -54,7 +51,7 @@ fun PreferenceScreen() {
 
 
 
-        PreferenceGroup(title = "List Group", enabled = false) {
+        PreferenceGroup(title = "List Group") {
             ListPreference(
                 title = "List Preference",
                 summary = "Select one item from a list in a dialog",

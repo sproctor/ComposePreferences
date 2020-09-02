@@ -37,5 +37,5 @@ dependencies {
     implementation("androidx.compose.material:material:1.0.0-alpha01")
 
     // Preferences
-    api("com.github.tfcporciuncula:flow-preferences:1.3.1")
+    api("androidx.datastore:datastore-preferences:1.0.0-alpha01")
 }

@@ -15,10 +15,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.VectorAsset
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.edit
+import androidx.datastore.preferences.preferencesSetKey
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @Composable
@@ -32,9 +36,12 @@ fun MultiSelectListPreference(
     defaultValue: Set<String> = emptySet(),
     enabled: Boolean = true,
 ) {
-    val preferences = PreferenceAmbient.current
-    val selected by preferences.getStringSet(key = key, defaultValue).asFlow()
-        .collectAsState(initial = defaultValue)
+    val scope = rememberCoroutineScope()
+    val prefKey = remember(key) { preferencesSetKey<String>(key) }
+    val dataStore = DataSourceAmbient.current
+    val prefs by dataStore.data.collectAsState(initial = null)
+    val selected = prefs?.get(prefKey) ?: defaultValue
+
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
     val descripion = entries.filter { selected.contains(it.key) }.map { it.value }
@@ -54,14 +61,14 @@ fun MultiSelectListPreference(
             onDismissRequest = { closeDialog() },
             title = { Text(text = title) },
             text = {
-                entries.forEach {
-                    val isSelected = selected.contains(it.key)
+                entries.forEach { entry ->
+                    val isSelected = selected.contains(entry.key)
                     val onSelectionChanged = {
                         val result = when (!isSelected) {
-                            true -> selected + it.key
-                            false -> selected - it.key
+                            true -> selected + entry.key
+                            false -> selected - entry.key
                         }
-                        preferences.sharedPreferences.edit().putStringSet(key, result).apply()
+                        scope.launch { dataStore.edit { it[prefKey] = result } }
                     }
                     Box(
                         modifier = Modifier.selectable(
@@ -75,7 +82,7 @@ fun MultiSelectListPreference(
                                         onSelectionChanged()
                                     })
                                     Text(
-                                        text = it.value,
+                                        text = entry.value,
                                         style = MaterialTheme.typography.body1.merge(),
                                         modifier = Modifier.padding(start = 16.dp)
                                     )

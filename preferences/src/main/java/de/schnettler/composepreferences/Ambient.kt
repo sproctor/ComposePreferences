@@ -1,25 +1,29 @@
 package de.schnettler.composepreferences
 
-import androidx.compose.foundation.ContentColorAmbient
-import androidx.compose.foundation.contentColor
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableAmbient
 import androidx.compose.runtime.Providers
 import androidx.compose.runtime.ambientOf
-import com.tfcporciuncula.flow.FlowSharedPreferences
+import androidx.compose.runtime.remember
+import androidx.datastore.DataStore
+import androidx.datastore.preferences.Preferences
+import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
-val PreferenceAmbient: ProvidableAmbient<FlowSharedPreferences> =
+val DataSourceAmbient: ProvidableAmbient<DataStore<Preferences>> =
     ambientOf { error("No preferences found") }
 
 @ExperimentalCoroutinesApi
 @Composable
 fun ProvidePreferences(
-    sharedPreferences: FlowSharedPreferences,
-    content: @Composable () -> Unit
+    context: Context,
+    content: @Composable () -> Unit,
 ) {
-    Providers(PreferenceAmbient provides sharedPreferences) {
+    val dataStore = remember(context) {
+        context.createDataStore("preferences")
+    }
+    Providers(DataSourceAmbient provides dataStore) {
         content()
     }
 }
