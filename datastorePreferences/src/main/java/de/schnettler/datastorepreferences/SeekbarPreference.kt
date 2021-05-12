@@ -16,6 +16,10 @@ fun SeekBarPreference(
         singleLineTitle = item.singleLineTitle,
         icon = item.icon,
         value = value,
+        steps = item.steps,
+        valueRange = item.valueRange,
+        enabled = item.enabled,
+        valueRepresentation = item.valueRepresentation,
         onValueChanged = onValueChanged
     )
 }
