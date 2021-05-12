@@ -49,28 +49,34 @@ class MainActivity : AppCompatActivity() {
                                 summary = "A preference with a switch.",
                                 key = "pref_switch",
                             ),
-                            SingleListPreferenceItem(
-                                title = "List Preference",
-                                summary = "Select one item from a list in a dialog",
-                                key = "pref_list",
-                                singleLineTitle = true,
-                                icon = Icons.Outlined.List,
-                                entries = mapOf(
-                                    "key1" to "Item1",
-                                    "key2" to "Item2"
-                                ),
+                            PreferenceGroupItem(
+                                title = "List Preferences",
+                                items = listOf(
+                                    SingleListPreferenceItem(
+                                        title = "List Preference",
+                                        summary = "Select one item from a list in a dialog",
+                                        key = "pref_list",
+                                        singleLineTitle = true,
+                                        icon = Icons.Outlined.List,
+                                        entries = mapOf(
+                                            "key1" to "Item1",
+                                            "key2" to "Item2"
+                                        ),
+                                    ),
+                                    MultiListPreferenceItem(
+                                        title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
+                                        summary = "Select multiple items from a list in a dialog",
+                                        key = "pref_multi_list",
+                                        singleLineTitle = false,
+                                        icon = Icons.Outlined.List,
+                                        entries = mapOf(
+                                            "key1" to "Item1",
+                                            "key2" to "Item2"
+                                        ),
+                                    ),
+                                )
                             ),
-                            MultiListPreferenceItem(
-                                title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
-                                summary = "Select multiple items from a list in a dialog",
-                                key = "pref_multi_list",
-                                singleLineTitle = false,
-                                icon = Icons.Outlined.List,
-                                entries = mapOf(
-                                    "key1" to "Item1",
-                                    "key2" to "Item2"
-                                ),
-                            ),
+                            PreferenceDivider,
                             SeekbarPreferenceItem(
                                 title = "Seekbar Preference",
                                 summary = "Select a value on a seekbar",

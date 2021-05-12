@@ -52,10 +52,10 @@ fun Preference(
         ListItem(
             text = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
             secondaryText = summary,
-            icon = icon?.let {
-                {
+            icon = {
+                if (icon != null) {
                     Icon(
-                        imageVector = it,
+                        imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier
                             .padding(8.dp)

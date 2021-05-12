@@ -96,8 +96,10 @@ data class CustomPreferenceItem(
     val onClick: () -> Unit = {}
 ) : PreferenceItem<Unit>
 
-data class PreferenceGroup(
+data class PreferenceGroupItem(
     val title: String,
     val enabled: Boolean = true,
-    val content: List<PreferenceItem<*>>
+    val items: List<PreferenceItem<*>>
 ) : BasePreferenceItem
+
+object PreferenceDivider : BasePreferenceItem
