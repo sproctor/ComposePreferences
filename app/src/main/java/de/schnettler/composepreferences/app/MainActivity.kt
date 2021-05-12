@@ -1,5 +1,6 @@
 package de.schnettler.composepreferences.app
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import de.schnettler.composepreferences.app.ui.ComposePreferencesTheme
 import de.schnettler.datastorepreferences.*
 import kotlin.math.roundToInt
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
     @OptIn(ExperimentalMaterialApi::class)
@@ -19,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val context = LocalContext.current
             ComposePreferencesTheme {
                 Scaffold(
                     topBar = {
@@ -28,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 ) {
                     PreferenceScreen(
+                        preferences = context.dataStore,
                         items = listOf(
                             StringPreferenceItem(
                                 title = "Text Preference",
