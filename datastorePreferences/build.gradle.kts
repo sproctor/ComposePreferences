@@ -16,6 +16,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        useIR = true
     }
     buildFeatures {
         compose = true
@@ -27,7 +28,6 @@ android {
     kotlinOptions {
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xallow-jvm-ir-dependencies",
             "-Xskip-prerelease-check"
         )
     }
