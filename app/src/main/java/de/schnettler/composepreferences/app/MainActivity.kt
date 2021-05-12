@@ -1,4 +1,4 @@
-package de.schnettler.composepreferences
+package de.schnettler.composepreferences.app
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -9,7 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
-import de.schnettler.composepreferences.ui.ComposePreferencesTheme
+import de.schnettler.composepreferences.app.ui.ComposePreferencesTheme
 import de.schnettler.datastorepreferences.*
 import kotlin.math.roundToInt
 

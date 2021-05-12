@@ -1,4 +1,4 @@
-package de.schnettler.composepreferences.ui
+package de.schnettler.composepreferences.app.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

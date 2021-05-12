@@ -1,4 +1,4 @@
-package de.schnettler.composepreferences
+package de.schnettler.composepreferences.app
 
 import android.content.Context
 import android.content.SharedPreferences
