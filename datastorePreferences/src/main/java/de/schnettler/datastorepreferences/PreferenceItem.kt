@@ -10,10 +10,10 @@ interface BasePreferenceItem
 
 interface PreferenceItem<T> : BasePreferenceItem {
     val title: String
-    val summary: String
+    val summary: String?
     val key: String
     val singleLineTitle: Boolean
-    val icon: ImageVector
+    val icon: ImageVector?
     val enabled: Boolean
 }
 
@@ -23,10 +23,10 @@ interface ListPreferenceItem : PreferenceItem<String> {
 
 data class StringPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val defaultValue: String = "",
 ) : PreferenceItem<String> {
@@ -35,10 +35,10 @@ data class StringPreferenceItem(
 
 data class SwitchPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val defaultValue: Boolean = false,
 ): PreferenceItem<Boolean> {
@@ -47,10 +47,10 @@ data class SwitchPreferenceItem(
 
 data class SingleListPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     override val entries: Map<String, String>,
     val defaultValue: String = "",
@@ -60,10 +60,10 @@ data class SingleListPreferenceItem(
 
 data class MultiListPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     override val entries: Map<String, String>,
     val defaultValue: Set<String> = emptySet()
@@ -73,10 +73,10 @@ data class MultiListPreferenceItem(
 
 data class SeekbarPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val defaultValue: Float = 0F,
     val valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
@@ -88,11 +88,11 @@ data class SeekbarPreferenceItem(
 
 data class CustomPreferenceItem(
     override val title: String,
-    override val summary: String,
+    override val summary: String? = null,
     override val key: String,
-    override val singleLineTitle: Boolean,
-    override val icon: ImageVector,
-    override val enabled: Boolean,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
+    override val enabled: Boolean = true,
     val onClick: () -> Unit = {}
 ) : PreferenceItem<Unit>
 

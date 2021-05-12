@@ -15,7 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PreferenceGroup(title: String, enabled: Boolean = true, content: @Composable () -> Unit) {
+fun PreferenceGroup(
+    title: String,
+    enabled: Boolean = true,
+    content: @Composable () -> Unit
+) {
     Column {
         Box(
             contentAlignment = Alignment.CenterStart,

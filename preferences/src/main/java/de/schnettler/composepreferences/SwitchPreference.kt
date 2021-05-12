@@ -9,9 +9,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @Composable
 fun SwitchPreference(
     title: String,
-    summary: String,
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    summary: String? = null,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     value: Boolean,
     onValueChanged: (Boolean) -> Unit,
     enabled: Boolean = true,

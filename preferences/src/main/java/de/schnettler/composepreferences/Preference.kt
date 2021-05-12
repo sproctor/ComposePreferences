@@ -13,16 +13,21 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Preference(
     title: String,
-    summary: String,
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    summary: String? = null,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
 ) {
+    val summaryComposable: @Composable (() -> Unit)? = summary?.let {
+        {
+            Text(text = it)
+        }
+    }
     Preference(
         title = title,
-        summary = { Text(text = summary) },
+        summary = summaryComposable,
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
@@ -35,9 +40,9 @@ fun Preference(
 @Composable
 fun Preference(
     title: String,
-    summary: @Composable () -> Unit,
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    summary: @Composable (() -> Unit)? = null,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
@@ -47,9 +52,17 @@ fun Preference(
         ListItem(
             text = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
             secondaryText = summary,
-            icon = { Icon(imageVector = icon, null, modifier = Modifier
-                .padding(8.dp)
-                .size(24.dp)) },
+            icon = icon?.let {
+                {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(24.dp)
+                    )
+                }
+            },
             modifier = Modifier.clickable(onClick = { if (isEnabled) onClick() }),
             trailing = trailing,
         )

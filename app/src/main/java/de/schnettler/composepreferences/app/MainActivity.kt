@@ -42,15 +42,12 @@ class MainActivity : AppCompatActivity() {
                                 title = "Text Preference",
                                 summary = "No value entered",
                                 key = "pref_string",
-                                singleLineTitle = true,
                                 icon = Icons.Outlined.Edit
                             ),
                             SwitchPreferenceItem(
                                 title = "Switch Preference",
                                 summary = "A preference with a switch.",
                                 key = "pref_switch",
-                                singleLineTitle = true,
-                                icon = Icons.Outlined.Check,
                             ),
                             SingleListPreferenceItem(
                                 title = "List Preference",
@@ -64,10 +61,10 @@ class MainActivity : AppCompatActivity() {
                                 ),
                             ),
                             MultiListPreferenceItem(
-                                title = "MultiSelect List Preference",
+                                title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
                                 summary = "Select multiple items from a list in a dialog",
                                 key = "pref_multi_list",
-                                singleLineTitle = true,
+                                singleLineTitle = false,
                                 icon = Icons.Outlined.List,
                                 entries = mapOf(
                                     "key1" to "Item1",
@@ -79,7 +76,6 @@ class MainActivity : AppCompatActivity() {
                                 summary = "Select a value on a seekbar",
                                 key = "pref_seek",
                                 defaultValue = 50F,
-                                singleLineTitle = true,
                                 icon = Icons.Outlined.AccountCircle,
                                 steps = 4,
                                 valueRange = 50F..100F,
@@ -92,61 +88,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-//@ExperimentalMaterialApi
-//@Composable
-//fun PreferenceScreen() {
-//    Column(
-//        modifier = Modifier.verticalScroll(rememberScrollState())
-//    ) {
-//        var switchValue by remember { mutableStateOf(false) }
-//        SwitchPreference(
-//            title = "Switch Preference",
-//            summary = "A preference with a switch.",
-//            key = "pref_switch",
-//            singleLineTitle = true,
-//            icon = Icons.Outlined.Warning,
-//        )
-//
-//
-//
-//        PreferenceGroup(title = "List Group", enabled = true) {
-//            ListPreference(
-//                title = "List Preference",
-//                summary = "Select one item from a list in a dialog",
-//                key = "pref_list",
-//                singleLineTitle = true,
-//                icon = Icons.Outlined.Warning,
-//                entries = mapOf(
-//                    "key1" to "Item1",
-//                    "key2" to "Item2"
-//                ),
-//            )
-//            MultiSelectListPreference(
-//                title = "MultiSelect List Preference",
-//                summary = "Select multiple items from a list in a dialog",
-//                key = "pref_multi_list",
-//                singleLineTitle = true,
-//                icon = Icons.Outlined.Warning,
-//                entries = mapOf(
-//                    "key1" to "Item1",
-//                    "key2" to "Item2"
-//                ),
-//            )
-//        }
-//
-//        PreferenceGroup(title = "Seekbar Group") {
-//            SeekBarPreference(
-//                title = "Seekbar Preference",
-//                summary = "Select a value on a seekbar",
-//                key = "pref_seek",
-//                defaultValue = 50F,
-//                singleLineTitle = true,
-//                icon = Icons.Outlined.Warning,
-//                steps = 4,
-//                valueRange = 50F..100F,
-//                valueRepresentation = { value -> "${value.roundToInt()} %" }
-//            )
-//        }
-//    }
-//}

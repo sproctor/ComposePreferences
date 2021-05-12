@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ListPreference(
     title: String,
-    summary: String,
+    summary: String? = null,
     value: String?,
     onValueChanged: (String) -> Unit = {},
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
 ) {

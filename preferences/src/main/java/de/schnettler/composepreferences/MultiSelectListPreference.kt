@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MultiSelectListPreference(
     title: String,
-    summary: String,
+    summary: String? = null,
     values: Set<String>,
     onValuesChanged: (Set<String>) -> Unit = {},
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
 ) {

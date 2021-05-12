@@ -18,9 +18,9 @@ import java.text.NumberFormat
 @Composable
 fun SeekBarPreference(
     title: String,
-    summary: String,
-    singleLineTitle: Boolean,
-    icon: ImageVector,
+    summary: String? = null,
+    singleLineTitle: Boolean = true,
+    icon: ImageVector? = null,
     value: Float?,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     steps: Int = 0,
@@ -49,7 +49,7 @@ fun SeekBarPreference(
 
 @Composable
 private fun SeekBarSummary(
-    summary: String,
+    summary: String?,
     valueRepresentation: (Float) -> String,
     value: Float?,
     onValueChanged: (Float) -> Unit,
@@ -62,7 +62,7 @@ private fun SeekBarSummary(
     }
 
     Column {
-        Text(text = summary)
+        summary?.let { Text(text = it) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = valueRepresentation(sliderValue))
             Spacer(modifier = Modifier.width(16.dp))
