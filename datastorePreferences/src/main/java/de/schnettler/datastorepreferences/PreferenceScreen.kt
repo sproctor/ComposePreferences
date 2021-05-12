@@ -78,6 +78,12 @@ fun PreferenceScreen(items: List<BasePreferenceItem>) {
                         },
                     )
                 }
+                is CustomPreferenceItem -> {
+                    Preference(
+                        item = item,
+                        onClick = item.onClick
+                    )
+                }
                 else -> throw IllegalStateException("Unsupported preference item")
             }
         }

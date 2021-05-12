@@ -86,6 +86,16 @@ data class SeekbarPreferenceItem(
     val prefKey = floatPreferencesKey(key)
 }
 
+data class CustomPreferenceItem(
+    override val title: String,
+    override val summary: String,
+    override val key: String,
+    override val singleLineTitle: Boolean,
+    override val icon: ImageVector,
+    override val enabled: Boolean,
+    val onClick: () -> Unit = {}
+) : PreferenceItem<Unit>
+
 data class PreferenceGroup(
     val title: String,
     val enabled: Boolean = true,
