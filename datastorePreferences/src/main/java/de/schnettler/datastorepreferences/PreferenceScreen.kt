@@ -48,7 +48,7 @@ private fun LazyListScope.preferenceItemEntry(
                         scope.launch {
                             preferences.edit { it[item.prefKey] = newValue }
                         }
-                    }
+                    },
                 )
             }
         }

@@ -17,5 +17,6 @@ public fun EditTextPreference(
         onValueChanged = onValueChange,
         singleLineTitle = item.singleLineTitle,
         icon = item.icon,
+        isPassword = item.isPassword,
     )
 }

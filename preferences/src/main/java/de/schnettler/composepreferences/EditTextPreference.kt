@@ -1,6 +1,7 @@
 package de.schnettler.composepreferences
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -9,7 +10,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 
 @ExperimentalMaterialApi
 @Composable
@@ -21,13 +25,16 @@ public fun EditTextPreference(
     singleLineTitle: Boolean = true,
     icon: ImageVector? = null,
     enabled: Boolean = true,
+    isPassword: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
 
+    val text = if (isPassword) "(hidden)" else value
     Preference(
         title = title,
-        summary = value ?: summary,
+        summary = text ?: summary,
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
@@ -38,6 +45,8 @@ public fun EditTextPreference(
         EditTextDialog(
             title = title,
             value = value ?: "",
+            isPassword = isPassword,
+            keyboardOptions = keyboardOptions,
             onDismissRequest = closeDialog,
             onConfirm = onValueChanged
         )
@@ -48,6 +57,8 @@ public fun EditTextPreference(
 private fun EditTextDialog(
     title: String,
     value: String,
+    isPassword: Boolean,
+    keyboardOptions: KeyboardOptions,
     onDismissRequest: () -> Unit,
     onConfirm: (String) -> Unit,
 ) {
@@ -62,6 +73,11 @@ private fun EditTextDialog(
             onDismissRequest()
         }
     ) {
+        val useKeyboardOptions = when {
+            keyboardOptions != KeyboardOptions.Default -> keyboardOptions
+            isPassword -> KeyboardOptions(keyboardType = KeyboardType.Password)
+            else -> KeyboardOptions.Default
+        }
         val focusRequester = FocusRequester()
         TextField(
             modifier = Modifier
@@ -69,7 +85,9 @@ private fun EditTextDialog(
                 .focusRequester(focusRequester),
             value = textValue,
             onValueChange = { textValue = it },
-            singleLine = true
+            singleLine = true,
+            visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = useKeyboardOptions
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()

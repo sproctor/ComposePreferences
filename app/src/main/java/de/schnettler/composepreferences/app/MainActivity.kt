@@ -9,6 +9,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
@@ -43,6 +44,13 @@ class MainActivity : AppCompatActivity() {
                                 summary = "No value entered",
                                 key = "pref_string",
                                 icon = Icons.Outlined.Edit
+                            ),
+                            TextPreferenceItem(
+                                title = "Password Preference",
+                                summary = "No password",
+                                key = "pref_password",
+                                icon = Icons.Default.Lock,
+                                isPassword = true
                             ),
                             SwitchPreferenceItem(
                                 title = "Switch Preference",

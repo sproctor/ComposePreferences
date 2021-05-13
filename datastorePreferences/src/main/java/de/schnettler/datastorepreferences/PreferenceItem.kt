@@ -21,6 +21,7 @@ public data class TextPreferenceItem(
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
+    val isPassword: Boolean = false,
     val key: String,
 ) : PreferenceItem {
     val prefKey: Preferences.Key<String> = stringPreferencesKey(key)
