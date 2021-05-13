@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun MultiSelectListPreference(
+public fun MultiSelectListPreference(
     item: MultiListPreferenceItem,
     values: Set<String>,
     onValuesChanged: (Set<String>) -> Unit

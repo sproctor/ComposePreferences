@@ -28,7 +28,8 @@ android {
     kotlinOptions {
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xskip-prerelease-check"
+            "-Xskip-prerelease-check",
+            "-Xexplicit-api=strict"
         )
     }
 }

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 @ExperimentalMaterialApi
 @Composable
-fun EditTextPreference(
+public fun EditTextPreference(
     title: String,
     summary: String? = null,
     value: String?,
@@ -45,7 +45,7 @@ fun EditTextPreference(
 }
 
 @Composable
-fun EditTextDialog(
+private fun EditTextDialog(
     title: String,
     value: String,
     onDismissRequest: () -> Unit,

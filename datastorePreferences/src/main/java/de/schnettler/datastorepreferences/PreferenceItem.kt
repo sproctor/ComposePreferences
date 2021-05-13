@@ -1,105 +1,103 @@
 package de.schnettler.datastorepreferences
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.floatPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.core.*
 
-interface BasePreferenceItem
-
-interface PreferenceItem<T> : BasePreferenceItem {
-    val title: String
-    val summary: String?
-    val key: String
-    val singleLineTitle: Boolean
-    val icon: ImageVector?
-    val enabled: Boolean
+public interface PreferenceItem {
+    public val title: String
+    public val enabled: Boolean
+    public val summary: String?
+    public val icon: ImageVector?
+    public val singleLineTitle: Boolean
 }
 
-interface ListPreferenceItem : PreferenceItem<String> {
-    val entries: Map<String, String>
+public interface ListPreferenceItem : PreferenceItem {
+    public val entries: Map<String, String>
 }
 
-data class StringPreferenceItem(
+public data class TextPreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
-    val defaultValue: String = "",
-) : PreferenceItem<String> {
-    val prefKey = stringPreferencesKey(key)
+    val key: String,
+) : PreferenceItem {
+    val prefKey: Preferences.Key<String> = stringPreferencesKey(key)
 }
 
-data class SwitchPreferenceItem(
+public data class SwitchPreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
-    val defaultValue: Boolean = false,
-): PreferenceItem<Boolean> {
-    val prefKey = booleanPreferencesKey(key)
+    val key: String,
+): PreferenceItem {
+    val prefKey: Preferences.Key<Boolean> = booleanPreferencesKey(key)
 }
 
-data class SingleListPreferenceItem(
+public data class SingleListPreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     override val entries: Map<String, String>,
-    val defaultValue: String = "",
+    val key: String,
 ) : ListPreferenceItem {
-    val prefKey = stringPreferencesKey(key)
+    val prefKey: Preferences.Key<String> = stringPreferencesKey(key)
 }
 
-data class MultiListPreferenceItem(
+public data class MultiListPreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     override val entries: Map<String, String>,
-    val defaultValue: Set<String> = emptySet()
+    val key: String,
 ) : ListPreferenceItem {
-    val prefKey = stringSetPreferencesKey(key)
+    val prefKey: Preferences.Key<Set<String>> = stringSetPreferencesKey(key)
 }
 
-data class SeekbarPreferenceItem(
+public data class SeekbarPreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val defaultValue: Float = 0F,
     val valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     val steps: Int = 0,
-    val valueRepresentation: (Float) -> String
-) : PreferenceItem<Float> {
-    val prefKey = floatPreferencesKey(key)
+    val valueRepresentation: (Float) -> String,
+    val key: String,
+) : PreferenceItem {
+    val prefKey: Preferences.Key<Float> = floatPreferencesKey(key)
 }
 
-data class CustomPreferenceItem(
+public data class SimplePreferenceItem(
     override val title: String,
     override val summary: String? = null,
-    override val key: String,
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val onClick: () -> Unit = {}
-) : PreferenceItem<Unit>
+) : PreferenceItem
 
-data class PreferenceGroupItem(
-    val title: String,
-    val enabled: Boolean = true,
-    val items: List<PreferenceItem<*>>
-) : BasePreferenceItem
+public data class PreferenceGroupItem(
+    override val title: String,
+    override val summary: String? = null,
+    override val singleLineTitle: Boolean = true,
+    override val icon: ImageVector? = null,
+    override val enabled: Boolean = true,
+    val items: List<PreferenceItem>,
+) : PreferenceItem
 
-object PreferenceDivider : BasePreferenceItem
+public object PreferenceDivider : PreferenceItem {
+    override val title: String = ""
+    override val summary: String? = null
+    override val singleLineTitle: Boolean = true
+    override val icon: ImageVector? = null
+    override val enabled: Boolean = true
+}

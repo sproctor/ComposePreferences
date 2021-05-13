@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
-fun Preference(
+public fun Preference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,
@@ -38,7 +38,7 @@ fun Preference(
 
 @ExperimentalMaterialApi
 @Composable
-fun Preference(
+public fun Preference(
     title: String,
     summary: @Composable (() -> Unit)? = null,
     singleLineTitle: Boolean = true,
@@ -71,11 +71,11 @@ fun Preference(
 }
 
 @Composable
-fun StatusWrapper(enabled: Boolean = true, content: @Composable () -> Unit) {
+internal fun StatusWrapper(enabled: Boolean = true, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalContentAlpha provides if (enabled) ContentAlpha.high else ContentAlpha.disabled) {
         content()
     }
 }
 
-val LocalPreferenceEnabledStatus: ProvidableCompositionLocal<Boolean> =
+internal val LocalPreferenceEnabledStatus: ProvidableCompositionLocal<Boolean> =
     compositionLocalOf(structuralEqualityPolicy()) { true }

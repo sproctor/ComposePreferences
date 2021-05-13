@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun SeekBarPreference(
+public fun SeekBarPreference(
     item: SeekbarPreferenceItem,
     value: Float?,
     onValueChanged: (Float) -> Unit,

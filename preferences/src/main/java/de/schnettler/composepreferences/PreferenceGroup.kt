@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun PreferenceGroup(
+public fun PreferenceGroup(
     title: String,
     enabled: Boolean = true,
     content: @Composable () -> Unit

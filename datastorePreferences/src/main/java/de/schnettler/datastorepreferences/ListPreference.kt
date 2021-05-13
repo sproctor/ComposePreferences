@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun ListPreference(
+public fun ListPreference(
     item: SingleListPreferenceItem,
     value: String?,
     onValueChanged: (String) -> Unit

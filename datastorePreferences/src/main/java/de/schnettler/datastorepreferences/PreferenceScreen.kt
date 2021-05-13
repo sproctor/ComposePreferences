@@ -1,107 +1,131 @@
 package de.schnettler.datastorepreferences
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.*
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
-fun PreferenceScreen(
-    items: List<BasePreferenceItem>,
+public fun PreferenceScreen(
+    items: List<PreferenceItem>,
     preferences: DataStore<Preferences>,
 ) {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
+    val scope = rememberCoroutineScope()
+    val preferencesState = preferences.data.collectAsState(initial = null)
+    LazyColumn {
         items.forEach { item ->
-            PreferenceItemRow(item = item, preferences = preferences)
+            preferenceItemEntry(
+                item = item,
+                preferences = preferences,
+                preferencesState = preferencesState,
+                scope = scope
+            )
         }
     }
 }
 
 @ExperimentalMaterialApi
-@Composable
-fun PreferenceItemRow(item: BasePreferenceItem, preferences: DataStore<Preferences>) {
-    val scope = rememberCoroutineScope()
-    val prefs by preferences.data.collectAsState(initial = null)
-
+private fun LazyListScope.preferenceItemEntry(
+    item: PreferenceItem,
+    preferences: DataStore<Preferences>,
+    preferencesState: State<Preferences?>,
+    scope: CoroutineScope,
+) {
+    val prefs by preferencesState
     when (item) {
-        is StringPreferenceItem -> {
-            EditTextPreference(
-                item = item,
-                value = prefs?.get(item.prefKey),
-                onValueChange = { newValue ->
-                    scope.launch {
-                        preferences.edit { it[item.prefKey] = newValue }
+        is TextPreferenceItem -> {
+            item {
+                EditTextPreference(
+                    item = item,
+                    value = prefs?.get(item.prefKey),
+                    onValueChange = { newValue ->
+                        scope.launch {
+                            preferences.edit { it[item.prefKey] = newValue }
+                        }
                     }
-                }
-            )
+                )
+            }
         }
         is SwitchPreferenceItem -> {
-            SwitchPreference(
-                item = item,
-                value = prefs?.get(item.prefKey),
-                onValueChanged = { newValue ->
-                    scope.launch {
-                        preferences.edit { it[item.prefKey] = newValue }
+            item {
+                SwitchPreference(
+                    item = item,
+                    value = prefs?.get(item.prefKey) ?: false,
+                    onValueChanged = { newValue ->
+                        scope.launch {
+                            preferences.edit { it[item.prefKey] = newValue }
+                        }
                     }
-                }
-            )
+                )
+            }
         }
         is SingleListPreferenceItem -> {
-            ListPreference(
-                item = item,
-                value = prefs?.get(item.prefKey),
-                onValueChanged = { newValue ->
-                    scope.launch { preferences.edit { it[item.prefKey] = newValue } }
-                })
+            item {
+                ListPreference(
+                    item = item,
+                    value = prefs?.get(item.prefKey),
+                    onValueChanged = { newValue ->
+                        scope.launch { preferences.edit { it[item.prefKey] = newValue } }
+                    })
+            }
         }
         is MultiListPreferenceItem -> {
-            MultiSelectListPreference(
-                item = item,
-                values = prefs?.get(item.prefKey) ?: emptySet(),
-                onValuesChanged = { newValues ->
-                    scope.launch { preferences.edit { it[item.prefKey] = newValues } }
-                }
-            )
+            item {
+                MultiSelectListPreference(
+                    item = item,
+                    values = prefs?.get(item.prefKey) ?: emptySet(),
+                    onValuesChanged = { newValues ->
+                        scope.launch { preferences.edit { it[item.prefKey] = newValues } }
+                    }
+                )
+            }
         }
         is SeekbarPreferenceItem -> {
-            SeekBarPreference(
-                item = item,
-                value = prefs?.get(item.prefKey),
-                onValueChanged = { newValue ->
-                    scope.launch {
-                        preferences.edit { it[item.prefKey] = newValue }
-                    }
-                },
-            )
+            item {
+                SeekBarPreference(
+                    item = item,
+                    value = prefs?.get(item.prefKey),
+                    onValueChanged = { newValue ->
+                        scope.launch {
+                            preferences.edit { it[item.prefKey] = newValue }
+                        }
+                    },
+                )
+            }
         }
-        is CustomPreferenceItem -> {
-            Preference(
-                item = item,
-                onClick = item.onClick
-            )
+        is SimplePreferenceItem -> {
+            item {
+                Preference(
+                    item = item,
+                    onClick = item.onClick
+                )
+            }
         }
         is PreferenceGroupItem -> {
-            Divider()
-            ListItem(icon = {}) {
-                Text(text = item.title, color = MaterialTheme.colors.primary)
+            item {
+                Divider()
+            }
+            item {
+                ListItem(icon = {}) {
+                    Text(text = item.title, color = MaterialTheme.colors.primary)
+                }
             }
             item.items.forEach { subItem ->
-                PreferenceItemRow(item = subItem, preferences = preferences)
+                preferenceItemEntry(
+                    item = subItem,
+                    preferences = preferences,
+                    preferencesState = preferencesState,
+                    scope = scope
+                )
             }
         }
-        PreferenceDivider -> Divider()
+        PreferenceDivider -> item { Divider() }
         else -> throw IllegalStateException("Unsupported preference item")
     }
 }

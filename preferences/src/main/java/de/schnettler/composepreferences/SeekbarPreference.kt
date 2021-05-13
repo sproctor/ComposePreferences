@@ -16,7 +16,7 @@ import java.text.NumberFormat
 
 @ExperimentalMaterialApi
 @Composable
-fun SeekBarPreference(
+public fun SeekBarPreference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,

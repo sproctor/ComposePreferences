@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun Preference(
-    item: PreferenceItem<*>,
+public fun Preference(
+    item: PreferenceItem,
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
 ) {

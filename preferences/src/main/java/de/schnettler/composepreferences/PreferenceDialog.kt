@@ -14,7 +14,7 @@ import androidx.compose.ui.window.Dialog
 import java.util.*
 
 @Composable
-fun PreferenceDialog(
+internal fun PreferenceDialog(
     title: String,
     onDismissRequest: () -> Unit,
     onConfirm: (() -> Unit)? = null,

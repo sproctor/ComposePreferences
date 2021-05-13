@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @ExperimentalMaterialApi
 @Composable
-fun SwitchPreference(
+public fun SwitchPreference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,

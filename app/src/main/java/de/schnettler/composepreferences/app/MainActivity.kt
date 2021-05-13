@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     PreferenceScreen(
                         preferences = context.dataStore,
                         items = listOf(
-                            StringPreferenceItem(
+                            TextPreferenceItem(
                                 title = "Text Preference",
                                 summary = "No value entered",
                                 key = "pref_string",

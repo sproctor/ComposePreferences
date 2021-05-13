@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun EditTextPreference(
-    item: StringPreferenceItem,
+public fun EditTextPreference(
+    item: TextPreferenceItem,
     value: String?,
     onValueChange: (String) -> Unit
 ) {

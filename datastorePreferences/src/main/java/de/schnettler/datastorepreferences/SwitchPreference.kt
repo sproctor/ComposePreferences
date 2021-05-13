@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 
 @ExperimentalMaterialApi
 @Composable
-fun SwitchPreference(
+public fun SwitchPreference(
     item: SwitchPreferenceItem,
-    value: Boolean?,
+    value: Boolean,
     onValueChanged: (Boolean) -> Unit
 ) {
     de.schnettler.composepreferences.SwitchPreference(
@@ -15,7 +15,7 @@ fun SwitchPreference(
         summary = item.summary,
         singleLineTitle = item.singleLineTitle,
         icon = item.icon,
-        value = value ?: item.defaultValue,
+        value = value,
         onValueChanged = onValueChanged
     )
 }

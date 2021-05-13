@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
-fun ListPreference(
+public fun ListPreference(
     title: String,
     summary: String? = null,
     value: String?,

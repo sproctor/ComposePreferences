@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
-fun MultiSelectListPreference(
+public fun MultiSelectListPreference(
     title: String,
     summary: String? = null,
     values: Set<String>,
