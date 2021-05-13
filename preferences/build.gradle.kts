@@ -51,7 +51,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor.ComposePreferences"
                 artifactId = "preferences"
-                version = "0.3.2"
+                version = "0.4.0"
             }
         }
     }
