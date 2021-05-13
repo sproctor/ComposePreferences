@@ -58,7 +58,7 @@ public fun Preference(
                         imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier
-                            .padding(8.dp)
+                            .padding(top = 8.dp)
                             .size(24.dp)
                     )
                 }
