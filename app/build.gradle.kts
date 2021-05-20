@@ -26,22 +26,16 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta06"
+        kotlinCompilerExtensionVersion = "1.0.0-beta07"
     }
     buildToolsVersion = "30.0.3"
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xskip-prerelease-check",
-        )
-    }
 }
 
 dependencies {
     implementation(project(":preferences"))
     implementation(project(":datastorePreferences"))
 
-    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
+    implementation("androidx.activity:activity-compose:1.3.0-alpha08")
 
     implementation(AndroidX.appCompat)
 }

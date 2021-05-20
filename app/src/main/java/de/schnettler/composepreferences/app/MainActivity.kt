@@ -22,7 +22,7 @@ import kotlin.math.roundToInt
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
-    @OptIn(ExperimentalMaterialApi::class)
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

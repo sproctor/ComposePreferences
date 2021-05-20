@@ -17,21 +17,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         useIR = true
+        freeCompilerArgs += listOf(
+            "-Xexplicit-api=strict"
+        )
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta06"
+        kotlinCompilerExtensionVersion = "1.0.0-beta07"
     }
     buildToolsVersion = "30.0.3"
-    kotlinOptions {
-        freeCompilerArgs += listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            "-Xskip-prerelease-check",
-            "-Xexplicit-api=strict"
-        )
-    }
 }
 
 dependencies {
@@ -55,7 +51,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor.ComposePreferences"
                 artifactId = "preferences-datastore"
-                version = "0.4.1"
+                version = "0.4.2"
             }
         }
     }
