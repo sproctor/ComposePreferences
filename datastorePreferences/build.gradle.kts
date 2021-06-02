@@ -25,7 +25,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta07"
+        kotlinCompilerExtensionVersion = "1.0.0-beta08"
     }
     buildToolsVersion = "30.0.3"
 }

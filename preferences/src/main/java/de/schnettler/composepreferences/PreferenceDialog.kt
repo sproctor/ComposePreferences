@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import java.util.*
 
 @Composable
 internal fun PreferenceDialog(
@@ -48,11 +47,11 @@ internal fun PreferenceDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = onDismissRequest) {
-                        Text(text = stringResource(android.R.string.cancel).toUpperCase(Locale.getDefault()))
+                        Text(text = stringResource(android.R.string.cancel).uppercase())
                     }
                     if (onConfirm != null) {
                         TextButton(onClick = onConfirm) {
-                            Text(text = stringResource(android.R.string.ok).toUpperCase(Locale.getDefault()))
+                            Text(text = stringResource(android.R.string.ok).uppercase())
                         }
                     }
                 }

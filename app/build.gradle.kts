@@ -26,7 +26,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta07"
+        kotlinCompilerExtensionVersion = "1.0.0-beta08"
     }
     buildToolsVersion = "30.0.3"
 }
@@ -35,7 +35,7 @@ dependencies {
     implementation(project(":preferences"))
     implementation(project(":datastorePreferences"))
 
-    implementation("androidx.activity:activity-compose:1.3.0-alpha08")
+    implementation("androidx.activity:activity-compose:1.3.0-beta01")
 
     implementation(AndroidX.appCompat)
 }
