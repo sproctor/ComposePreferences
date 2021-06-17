@@ -1,3 +1,5 @@
+import de.fayard.refreshVersions.core.versionFor
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -20,13 +22,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta08"
+        kotlinCompilerExtensionVersion = versionFor("version.androidx.compose.material")
     }
     buildToolsVersion = "30.0.3"
 }
@@ -35,7 +36,7 @@ dependencies {
     implementation(project(":preferences"))
     implementation(project(":datastorePreferences"))
 
-    implementation("androidx.activity:activity-compose:1.3.0-beta01")
+    implementation("androidx.activity:activity-compose:_")
 
     implementation(AndroidX.appCompat)
 }

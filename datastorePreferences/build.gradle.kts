@@ -1,3 +1,5 @@
+import de.fayard.refreshVersions.core.versionFor
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -16,7 +18,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
         freeCompilerArgs += listOf(
             "-Xexplicit-api=strict"
         )
@@ -25,7 +26,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta08"
+        kotlinCompilerExtensionVersion = versionFor("version.androidx.compose.material")
     }
     buildToolsVersion = "30.0.3"
 }
@@ -51,7 +52,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor.ComposePreferences"
                 artifactId = "preferences-datastore"
-                version = "0.4.2"
+                version = "0.5.0"
             }
         }
     }
