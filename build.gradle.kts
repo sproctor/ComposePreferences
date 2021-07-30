@@ -2,7 +2,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:_")
