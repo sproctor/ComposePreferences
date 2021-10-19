@@ -7,12 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = 31
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -20,7 +19,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf(
+        freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xexplicit-api=strict"
         )
     }
@@ -35,7 +34,6 @@ android {
 dependencies {
     // Compose
     api(AndroidX.compose.material)
-
 }
 
 afterEvaluate {
@@ -49,7 +47,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor.ComposePreferences"
                 artifactId = "preferences"
-                version = "0.7.0"
+                version = "0.8.0"
             }
         }
     }

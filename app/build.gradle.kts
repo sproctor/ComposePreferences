@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         applicationId = "de.schnettler.composepreferences"
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -27,16 +27,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = versionFor("version.androidx.compose.material")
+        kotlinCompilerExtensionVersion = versionFor(AndroidX.compose.material)
     }
-    buildToolsVersion = "30.0.3"
 }
 
 dependencies {
     implementation(project(":preferences"))
     implementation(project(":datastorePreferences"))
 
-    implementation("androidx.activity:activity-compose:_")
-
-    implementation(AndroidX.appCompat)
+    implementation(AndroidX.compose.material)
+    implementation(AndroidX.activity.compose)
 }

@@ -1,10 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ComposePreferences" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_500</item>
-        <!-- Secondary brand color. -->
-        <item name="colorAccent">@color/teal_200</item>
+    <style name="Theme.ComposePreferences" parent="android:Theme.Material.Light.NoActionBar">
     </style>
 </resources>

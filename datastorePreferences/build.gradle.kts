@@ -7,10 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         minSdk = 21
+        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -18,7 +19,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf(
+        freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xexplicit-api=strict"
         )
     }
@@ -28,7 +29,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = versionFor("version.androidx.compose.material")
     }
-    buildToolsVersion = "30.0.3"
 }
 
 dependencies {
@@ -38,7 +38,7 @@ dependencies {
     api(AndroidX.compose.material)
 
     // Preferences
-    api("androidx.datastore:datastore-preferences:_")
+    api(AndroidX.dataStore.preferences)
 }
 
 afterEvaluate {
@@ -52,7 +52,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor.ComposePreferences"
                 artifactId = "preferences-datastore"
-                version = "0.7.0"
+                version = "0.8.0"
             }
         }
     }
