@@ -1,4 +1,4 @@
-package de.schnettler.datastorepreferences
+package com.github.sproctor.datastorepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,7 +10,7 @@ public fun Preference(
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
 ) {
-    de.schnettler.composepreferences.Preference(
+    com.github.sproctor.composepreferences.Preference(
         title = item.title,
         summary = item.summary,
         singleLineTitle = item.singleLineTitle,

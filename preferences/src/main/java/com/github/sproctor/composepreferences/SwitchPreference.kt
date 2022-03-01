@@ -1,4 +1,4 @@
-package de.schnettler.composepreferences
+package com.github.sproctor.composepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Switch

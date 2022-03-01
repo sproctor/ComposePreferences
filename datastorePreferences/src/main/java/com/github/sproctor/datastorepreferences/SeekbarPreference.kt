@@ -1,4 +1,4 @@
-package de.schnettler.datastorepreferences
+package com.github.sproctor.datastorepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,7 +10,7 @@ public fun SeekBarPreference(
     value: Float?,
     onValueChanged: (Float) -> Unit,
 ) {
-    de.schnettler.composepreferences.SeekBarPreference(
+    com.github.sproctor.composepreferences.SeekBarPreference(
         title = item.title,
         summary = item.summary,
         singleLineTitle = item.singleLineTitle,

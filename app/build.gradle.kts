@@ -9,7 +9,7 @@ android {
     compileSdk = 31
 
     defaultConfig {
-        applicationId = "de.schnettler.composepreferences"
+        applicationId = "com.github.sproctor.composepreferences"
         minSdk = 21
         targetSdk = 31
         versionCode = 1

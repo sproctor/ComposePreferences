@@ -1,22 +1,23 @@
-package de.schnettler.datastorepreferences
+package com.github.sproctor.datastorepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 
+
 @ExperimentalMaterialApi
 @Composable
-public fun EditTextPreference(
-    item: TextPreferenceItem,
+public fun ListPreference(
+    item: SingleListPreferenceItem,
     value: String?,
-    onValueChange: (String) -> Unit
+    onValueChanged: (String) -> Unit
 ) {
-    de.schnettler.composepreferences.EditTextPreference(
+    com.github.sproctor.composepreferences.ListPreference(
         title = item.title,
         summary = item.summary,
         value = value,
-        onValueChanged = onValueChange,
+        onValueChanged = onValueChanged,
         singleLineTitle = item.singleLineTitle,
         icon = item.icon,
-        isPassword = item.isPassword,
+        entries = item.entries
     )
 }

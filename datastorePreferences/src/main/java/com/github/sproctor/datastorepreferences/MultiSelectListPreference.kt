@@ -1,4 +1,4 @@
-package de.schnettler.datastorepreferences
+package com.github.sproctor.datastorepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,7 +10,7 @@ public fun MultiSelectListPreference(
     values: Set<String>,
     onValuesChanged: (Set<String>) -> Unit
 ) {
-    de.schnettler.composepreferences.MultiSelectListPreference(
+    com.github.sproctor.composepreferences.MultiSelectListPreference(
         title = item.title,
         summary = item.summary,
         values = values,

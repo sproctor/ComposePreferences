@@ -1,4 +1,4 @@
-package de.schnettler.composepreferences
+package com.github.sproctor.composepreferences
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

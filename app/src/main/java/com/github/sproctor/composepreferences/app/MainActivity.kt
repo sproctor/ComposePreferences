@@ -1,13 +1,10 @@
-package de.schnettler.composepreferences.app
+package com.github.sproctor.composepreferences.app
 
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -17,8 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import de.schnettler.composepreferences.app.ui.ComposePreferencesTheme
-import de.schnettler.datastorepreferences.*
+import com.github.sproctor.datastorepreferences.*
 import kotlin.math.roundToInt
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -30,7 +26,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val context = LocalContext.current
-            ComposePreferencesTheme {
+            MaterialTheme {
                 Scaffold(
                     topBar = {
                         TopAppBar(

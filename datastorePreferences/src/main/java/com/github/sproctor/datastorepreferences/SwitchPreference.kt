@@ -1,4 +1,4 @@
-package de.schnettler.datastorepreferences
+package com.github.sproctor.datastorepreferences
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,7 +10,7 @@ public fun SwitchPreference(
     value: Boolean,
     onValueChanged: (Boolean) -> Unit
 ) {
-    de.schnettler.composepreferences.SwitchPreference(
+    com.github.sproctor.composepreferences.SwitchPreference(
         title = item.title,
         summary = item.summary,
         singleLineTitle = item.singleLineTitle,
