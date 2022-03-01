@@ -51,8 +51,8 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor"
-                artifactId = "composep-references-datastore"
-                version = "0.11.0"
+                artifactId = "compose-preferences-datastore"
+                version = "0.11.1"
             }
         }
     }
