@@ -1,4 +1,4 @@
-package com.github.sproctor.composepreferences
+package com.github.sproctor.composepreferences.preferences
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
