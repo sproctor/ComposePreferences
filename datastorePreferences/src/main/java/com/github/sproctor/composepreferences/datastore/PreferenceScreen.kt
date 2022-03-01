@@ -1,4 +1,4 @@
-package com.github.sproctor.composepreferences.datastorepreferences
+package com.github.sproctor.composepreferences.datastore
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope

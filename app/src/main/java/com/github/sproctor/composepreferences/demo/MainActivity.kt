@@ -1,4 +1,4 @@
-package com.github.sproctor.composepreferences.preferences.app
+package com.github.sproctor.composepreferences.demo
 
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.sproctor.composepreferences.datastorepreferences.*
+import com.github.sproctor.composepreferences.datastore.*
 import kotlin.math.roundToInt
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")

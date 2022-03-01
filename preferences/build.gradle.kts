@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 31
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -45,9 +45,9 @@ afterEvaluate {
                 from (components["release"])
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = "com.github.sproctor.composepreferences"
-                artifactId = "preferences"
-                version = "0.10.0"
+                groupId = "com.github.sproctor"
+                artifactId = "compose-preferences"
+                version = "0.11.0"
             }
         }
     }

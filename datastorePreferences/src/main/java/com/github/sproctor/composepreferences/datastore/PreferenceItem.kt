@@ -1,4 +1,4 @@
-package com.github.sproctor.composepreferences.datastorepreferences
+package com.github.sproctor.composepreferences.datastore
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.datastore.preferences.core.*
