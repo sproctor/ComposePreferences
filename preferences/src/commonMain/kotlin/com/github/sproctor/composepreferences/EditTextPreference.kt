@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -15,6 +16,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun EditTextPreference(
@@ -26,7 +28,9 @@ public fun EditTextPreference(
     icon: ImageVector? = null,
     enabled: Boolean = true,
     isPassword: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    dismissText: String = "CANCEL",
+    confirmText: String = "OK",
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
@@ -48,11 +52,14 @@ public fun EditTextPreference(
             isPassword = isPassword,
             keyboardOptions = keyboardOptions,
             onDismissRequest = closeDialog,
-            onConfirm = onValueChanged
+            onConfirm = onValueChanged,
+            dismissText = dismissText,
+            confirmText = confirmText
         )
     }
 }
 
+@ExperimentalComposeUiApi
 @Composable
 private fun EditTextDialog(
     title: String,
@@ -61,6 +68,8 @@ private fun EditTextDialog(
     keyboardOptions: KeyboardOptions,
     onDismissRequest: () -> Unit,
     onConfirm: (String) -> Unit,
+    dismissText: String,
+    confirmText: String
 ) {
     var textValue: TextFieldValue by remember {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
@@ -71,7 +80,9 @@ private fun EditTextDialog(
         onConfirm = {
             onConfirm(textValue.text)
             onDismissRequest()
-        }
+        },
+        dismissText = dismissText,
+        confirmText = confirmText
     ) {
         val useKeyboardOptions = when {
             keyboardOptions != KeyboardOptions.Default -> keyboardOptions

@@ -11,10 +11,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun MultiSelectListPreference(
@@ -26,6 +28,8 @@ public fun MultiSelectListPreference(
     icon: ImageVector? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
+    dismissText: String = "CANCEL",
+    confirmText: String = "OK"
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
@@ -34,7 +38,7 @@ public fun MultiSelectListPreference(
 
     Preference(
         title = title,
-        summary = if (description.isNotBlank()) description else summary,
+        summary = description.ifBlank { summary },
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
@@ -50,6 +54,8 @@ public fun MultiSelectListPreference(
                 onValuesChanged(selectedValues)
                 closeDialog()
             },
+            dismissText = dismissText,
+            confirmText = confirmText
         ) {
             Column {
                 entries.forEach { current ->

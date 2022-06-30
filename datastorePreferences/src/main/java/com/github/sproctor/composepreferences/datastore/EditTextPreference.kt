@@ -2,7 +2,9 @@ package com.github.sproctor.composepreferences.datastore
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun EditTextPreference(

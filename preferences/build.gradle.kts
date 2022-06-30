@@ -7,6 +7,9 @@ plugins {
     id("org.jetbrains.compose")
 }
 
+group = "com.github.sproctor"
+version = "0.11.2"
+
 android {
     compileSdk = 31
 
@@ -27,7 +30,9 @@ android {
 }
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
     jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -46,19 +51,19 @@ kotlin {
 
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            create<MavenPublication>("release") {
-                // Applies the component for the release build variant.
-                from (components["release"])
-
-                // You can then customize attributes of the publication as shown below.
-                groupId = "com.github.sproctor"
-                artifactId = "compose-preferences"
-                version = "0.11.2"
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // Creates a Maven publication called "release".
+//            create<MavenPublication>("release") {
+//                // Applies the component for the release build variant.
+//                from (components["release"])
+//
+//                // You can then customize attributes of the publication as shown below.
+//                groupId = ""
+//                artifactId = "compose-preferences"
+//                version =
+//            }
+//        }
+//    }
+//}

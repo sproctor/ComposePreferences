@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun ListPreference(
@@ -28,6 +30,7 @@ public fun ListPreference(
     icon: ImageVector? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
+    dismissText: String = "CANCEL"
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
@@ -45,6 +48,8 @@ public fun ListPreference(
         PreferenceDialog(
             onDismissRequest = closeDialog,
             title = title,
+            dismissText = dismissText,
+            confirmText = ""
         ) {
             Column {
                 entries.forEach { current ->

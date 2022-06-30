@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import java.text.NumberFormat
 
 @ExperimentalMaterialApi
 @Composable
@@ -25,7 +24,7 @@ public fun SeekBarPreference(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     steps: Int = 0,
     enabled: Boolean = true,
-    valueRepresentation: (Float) -> String = { NumberFormat.getInstance().format(it) },
+    valueRepresentation: (Float) -> String = { it.toString() },
     onValueChanged: (Float) -> Unit = {}
 ) {
     Preference(

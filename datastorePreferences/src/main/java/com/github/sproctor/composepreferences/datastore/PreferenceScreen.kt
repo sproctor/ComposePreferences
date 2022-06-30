@@ -4,12 +4,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun PreferenceScreen(
@@ -30,6 +32,7 @@ public fun PreferenceScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 private fun LazyListScope.preferenceItemEntry(
     item: PreferenceItem,

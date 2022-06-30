@@ -7,16 +7,18 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 
+@ExperimentalComposeUiApi
 @Composable
 internal fun PreferenceDialog(
     title: String,
     onDismissRequest: () -> Unit,
     onConfirm: (() -> Unit)? = null,
+    confirmText: String,
+    dismissText: String,
     content: @Composable () -> Unit
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
@@ -47,11 +49,11 @@ internal fun PreferenceDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = onDismissRequest) {
-                        Text(text = stringResource(android.R.string.cancel).uppercase())
+                        Text(dismissText)
                     }
                     if (onConfirm != null) {
                         TextButton(onClick = onConfirm) {
-                            Text(text = stringResource(android.R.string.ok).uppercase())
+                            Text(confirmText)
                         }
                     }
                 }
