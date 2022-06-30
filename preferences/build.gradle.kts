@@ -18,12 +18,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//        freeCompilerArgs = freeCompilerArgs + listOf(
-//            "-Xexplicit-api=strict"
-//        )
-//    }
     buildFeatures {
         compose = true
     }
@@ -39,6 +33,8 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
+
+    explicitApi()
 
     sourceSets {
         val commonMain by getting {
@@ -61,7 +57,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor"
                 artifactId = "compose-preferences"
-                version = "0.11.1"
+                version = "0.11.2"
             }
         }
     }
