@@ -1,9 +1,10 @@
 import de.fayard.refreshVersions.core.versionFor
 
 plugins {
+    kotlin("multiplatform")
     id("com.android.library")
-    kotlin("android")
     id("maven-publish")
+    id("org.jetbrains.compose")
 }
 
 android {
@@ -17,12 +18,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xexplicit-api=strict"
-        )
-    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//        freeCompilerArgs = freeCompilerArgs + listOf(
+//            "-Xexplicit-api=strict"
+//        )
+//    }
     buildFeatures {
         compose = true
     }
@@ -31,9 +32,22 @@ android {
     }
 }
 
-dependencies {
-    // Compose
-    api(AndroidX.compose.material)
+kotlin {
+    android()
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.material)
+            }
+        }
+    }
+
 }
 
 afterEvaluate {
