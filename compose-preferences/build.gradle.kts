@@ -7,8 +7,8 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-group = "com.github.sproctor"
-version = "0.11.4"
+group = "com.github.sproctor.ComposePreferences"
+version = "0.11.5"
 
 android {
     compileSdk = 31

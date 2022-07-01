@@ -6,6 +6,9 @@ plugins {
     id("maven-publish")
 }
 
+group = "com.github.sproctor.ComposePreferences"
+version = "0.11.5"
+
 android {
     compileSdk = 31
 
@@ -41,19 +44,19 @@ dependencies {
     api(AndroidX.dataStore.preferences)
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            create<MavenPublication>("release") {
-                // Applies the component for the release build variant.
-                from (components["release"])
-
-                // You can then customize attributes of the publication as shown below.
-                groupId = "com.github.sproctor"
-                artifactId = "compose-preferences-datastore"
-                version = "0.11.4"
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // Creates a Maven publication called "release".
+//            create<MavenPublication>("release") {
+//                // Applies the component for the release build variant.
+//                from (components["release"])
+//
+//                // You can then customize attributes of the publication as shown below.
+//                groupId = "com.github.sproctor"
+//                artifactId = "compose-preferences-datastore"
+//                version = "0.11.4"
+//            }
+//        }
+//    }
+//}
