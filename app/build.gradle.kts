@@ -9,7 +9,7 @@ android {
     compileSdk = 31
 
     defaultConfig {
-        applicationId = "com.github.sproctor.composepreferences.composepreferences"
+        applicationId = "com.github.sproctor.composepreferences.demo"
         minSdk = 21
         targetSdk = 31
         versionCode = 1
@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":preferences"))
-    implementation(project(":datastorePreferences"))
+    implementation(project(":compose-preferences"))
+    implementation(project(":compose-preferences-datastore"))
 
     implementation(AndroidX.compose.material)
     implementation(AndroidX.activity.compose)

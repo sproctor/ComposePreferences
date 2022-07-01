@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.sproctor"
-version = "0.11.3"
+version = "0.11.4"
 
 android {
     compileSdk = 31

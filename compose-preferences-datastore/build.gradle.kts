@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":preferences"))
+    implementation(project(":compose-preferences"))
 
     // Compose
     api(AndroidX.compose.material)
@@ -52,7 +52,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "com.github.sproctor"
                 artifactId = "compose-preferences-datastore"
-                version = "0.11.3"
+                version = "0.11.4"
             }
         }
     }
