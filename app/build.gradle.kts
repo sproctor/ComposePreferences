@@ -23,7 +23,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=kotlin.RequiresOptIn"
+            "-opt-in=kotlin.RequiresOptIn"
         )
     }
     buildFeatures {
@@ -40,4 +40,5 @@ dependencies {
 
     implementation(AndroidX.compose.material)
     implementation(AndroidX.activity.compose)
+    implementation(AndroidX.dataStore.preferences)
 }

@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.11.5"
+version = "0.11.6"
 
 android {
     compileSdk = 31
@@ -44,9 +44,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.material)
+                api(compose.material)
             }
         }
     }
-
 }
