@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.11.6"
+version = "0.12.0"
 
 kotlin {
     android {
@@ -26,7 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":compose-preferences"))
-                api(AndroidX.dataStore.preferences.core)
+                api("com.russhwolf:multiplatform-settings-coroutines:_")
             }
         }
     }

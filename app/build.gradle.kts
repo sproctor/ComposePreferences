@@ -36,9 +36,10 @@ android {
 
 dependencies {
     implementation(project(":compose-preferences"))
-    implementation(project(":compose-preferences-datastore"))
+    implementation(project(":compose-preferences-settings"))
 
     implementation(AndroidX.compose.material)
     implementation(AndroidX.activity.compose)
     implementation(AndroidX.dataStore.preferences)
+    implementation("com.russhwolf:multiplatform-settings-datastore:_")
 }

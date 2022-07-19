@@ -1,4 +1,4 @@
-package com.github.sproctor.composepreferences.datastore
+package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable

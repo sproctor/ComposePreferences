@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.11.6"
+version = "0.12.0"
 
 android {
     compileSdk = 31

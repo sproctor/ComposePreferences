@@ -1,13 +1,13 @@
-package com.github.sproctor.composepreferences.datastore
+package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
+import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -16,16 +16,14 @@ import kotlinx.coroutines.launch
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
-    preferences: DataStore<Preferences>,
+    settings: FlowSettings,
 ) {
     val scope = rememberCoroutineScope()
-    val preferencesState = preferences.data.collectAsState(initial = null)
     LazyColumn {
         items.forEach { item ->
             preferenceItemEntry(
                 item = item,
-                preferences = preferences,
-                preferencesState = preferencesState,
+                settings = settings,
                 scope = scope
             )
         }
@@ -36,20 +34,18 @@ public fun PreferenceScreen(
 @ExperimentalMaterialApi
 private fun LazyListScope.preferenceItemEntry(
     item: PreferenceItem,
-    preferences: DataStore<Preferences>,
-    preferencesState: State<Preferences?>,
+    settings: FlowSettings,
     scope: CoroutineScope,
 ) {
-    val prefs by preferencesState
     when (item) {
         is TextPreferenceItem -> {
             item {
                 EditTextPreference(
                     item = item,
-                    value = prefs?.get(item.prefKey),
+                    value = settings.getStringFlow(item.key).collectAsState("").value,
                     onValueChange = { newValue ->
                         scope.launch {
-                            preferences.edit { it[item.prefKey] = newValue }
+                            settings.putString(item.key, newValue)
                         }
                     },
                 )
@@ -59,10 +55,10 @@ private fun LazyListScope.preferenceItemEntry(
             item {
                 SwitchPreference(
                     item = item,
-                    value = prefs?.get(item.prefKey) ?: false,
+                    value = settings.getBooleanFlow(item.key, false).collectAsState(false).value,
                     onValueChanged = { newValue ->
                         scope.launch {
-                            preferences.edit { it[item.prefKey] = newValue }
+                            settings.putBoolean(item.key, newValue)
                         }
                     }
                 )
@@ -72,31 +68,31 @@ private fun LazyListScope.preferenceItemEntry(
             item {
                 ListPreference(
                     item = item,
-                    value = prefs?.get(item.prefKey),
+                    value = settings.getStringFlow(item.key).collectAsState("").value,
                     onValueChanged = { newValue ->
-                        scope.launch { preferences.edit { it[item.prefKey] = newValue } }
+                        scope.launch { settings.putString(item.key, newValue) }
                     })
             }
         }
-        is MultiListPreferenceItem -> {
-            item {
-                MultiSelectListPreference(
-                    item = item,
-                    values = prefs?.get(item.prefKey) ?: emptySet(),
-                    onValuesChanged = { newValues ->
-                        scope.launch { preferences.edit { it[item.prefKey] = newValues } }
-                    }
-                )
-            }
-        }
+//        is MultiListPreferenceItem -> {
+//            item {
+//                MultiSelectListPreference(
+//                    item = item,
+//                    values = settings.getStringOrNull(item.key) ?: emptySet(),
+//                    onValuesChanged = { newValues ->
+//                        scope.launch { settings[item.key] = newValues }
+//                    }
+//                )
+//            }
+//        }
         is SeekbarPreferenceItem -> {
             item {
                 SeekBarPreference(
                     item = item,
-                    value = prefs?.get(item.prefKey),
+                    value = settings.getFloatOrNullFlow(item.key).collectAsState(null).value,
                     onValueChanged = { newValue ->
                         scope.launch {
-                            preferences.edit { it[item.prefKey] = newValue }
+                            settings.putFloat(item.key, newValue)
                         }
                     },
                 )
@@ -122,8 +118,7 @@ private fun LazyListScope.preferenceItemEntry(
             item.items.forEach { subItem ->
                 preferenceItemEntry(
                     item = subItem,
-                    preferences = preferences,
-                    preferencesState = preferencesState,
+                    settings = settings,
                     scope = scope
                 )
             }

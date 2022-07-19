@@ -11,11 +11,11 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.sproctor.composepreferences.datastore.*
+import com.github.sproctor.composepreferences.settings.*
+import com.russhwolf.settings.datastore.DataStoreSettings
 import kotlin.math.roundToInt
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -24,9 +24,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val settings = DataStoreSettings(dataStore)
 
         setContent {
-            val context = LocalContext.current
             MaterialTheme {
                 Scaffold(
                     topBar = {
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
                     PreferenceScreen(
-                        preferences = context.dataStore,
+                        settings = settings,
                         items = listOf(
                             TextPreferenceItem(
                                 title = "Text Preference",
@@ -70,17 +70,17 @@ class MainActivity : ComponentActivity() {
                                             "key2" to "Item2"
                                         ),
                                     ),
-                                    MultiListPreferenceItem(
-                                        title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
-                                        summary = "Select multiple items from a list in a dialog",
-                                        key = "pref_multi_list",
-                                        singleLineTitle = false,
-                                        icon = Icons.Outlined.List,
-                                        entries = mapOf(
-                                            "key1" to "Item1",
-                                            "key2" to "Item2"
-                                        ),
-                                    ),
+//                                    MultiListPreferenceItem(
+//                                        title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
+//                                        summary = "Select multiple items from a list in a dialog",
+//                                        key = "pref_multi_list",
+//                                        singleLineTitle = false,
+//                                        icon = Icons.Outlined.List,
+//                                        entries = mapOf(
+//                                            "key1" to "Item1",
+//                                            "key2" to "Item2"
+//                                        ),
+//                                    ),
                                 )
                             ),
                             PreferenceDivider,

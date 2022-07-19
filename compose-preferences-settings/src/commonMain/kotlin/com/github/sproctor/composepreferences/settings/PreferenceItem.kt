@@ -1,7 +1,6 @@
-package com.github.sproctor.composepreferences.datastore
+package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.datastore.preferences.core.*
 
 public interface PreferenceItem {
     public val title: String
@@ -23,9 +22,7 @@ public data class TextPreferenceItem(
     override val enabled: Boolean = true,
     val isPassword: Boolean = false,
     val key: String,
-) : PreferenceItem {
-    val prefKey: Preferences.Key<String> = stringPreferencesKey(key)
-}
+) : PreferenceItem
 
 public data class SwitchPreferenceItem(
     override val title: String,
@@ -34,9 +31,7 @@ public data class SwitchPreferenceItem(
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
     val key: String,
-): PreferenceItem {
-    val prefKey: Preferences.Key<Boolean> = booleanPreferencesKey(key)
-}
+): PreferenceItem
 
 public data class SingleListPreferenceItem(
     override val title: String,
@@ -46,21 +41,17 @@ public data class SingleListPreferenceItem(
     override val enabled: Boolean = true,
     override val entries: Map<String, String>,
     val key: String,
-) : ListPreferenceItem {
-    val prefKey: Preferences.Key<String> = stringPreferencesKey(key)
-}
+) : ListPreferenceItem
 
-public data class MultiListPreferenceItem(
-    override val title: String,
-    override val summary: String? = null,
-    override val singleLineTitle: Boolean = true,
-    override val icon: ImageVector? = null,
-    override val enabled: Boolean = true,
-    override val entries: Map<String, String>,
-    val key: String,
-) : ListPreferenceItem {
-    val prefKey: Preferences.Key<Set<String>> = stringSetPreferencesKey(key)
-}
+//public data class MultiListPreferenceItem(
+//    override val title: String,
+//    override val summary: String? = null,
+//    override val singleLineTitle: Boolean = true,
+//    override val icon: ImageVector? = null,
+//    override val enabled: Boolean = true,
+//    override val entries: Map<String, String>,
+//    val key: String,
+//) : ListPreferenceItem
 
 public data class SeekbarPreferenceItem(
     override val title: String,
@@ -73,9 +64,7 @@ public data class SeekbarPreferenceItem(
     val steps: Int = 0,
     val valueRepresentation: (Float) -> String,
     val key: String,
-) : PreferenceItem {
-    val prefKey: Preferences.Key<Float> = floatPreferencesKey(key)
-}
+) : PreferenceItem
 
 public data class SimplePreferenceItem(
     override val title: String,
