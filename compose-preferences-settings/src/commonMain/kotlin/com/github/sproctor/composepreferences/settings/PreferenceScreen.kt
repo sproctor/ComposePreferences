@@ -42,7 +42,7 @@ private fun LazyListScope.preferenceItemEntry(
             item {
                 EditTextPreference(
                     item = item,
-                    value = settings.getStringFlow(item.key).collectAsState("").value,
+                    value = settings.getStringOrNullFlow(item.key).collectAsState("").value,
                     onValueChange = { newValue ->
                         scope.launch {
                             settings.putString(item.key, newValue)
@@ -68,7 +68,7 @@ private fun LazyListScope.preferenceItemEntry(
             item {
                 ListPreference(
                     item = item,
-                    value = settings.getStringFlow(item.key).collectAsState("").value,
+                    value = settings.getStringOrNullFlow(item.key).collectAsState("").value,
                     onValueChanged = { newValue ->
                         scope.launch { settings.putString(item.key, newValue) }
                     })

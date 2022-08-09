@@ -8,30 +8,27 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.12.0"
+version = "0.13.0"
 
 android {
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 32
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = versionFor("version.androidx.compose.material")
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
 kotlin {
     android {
         publishLibraryVariants("release")
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
     }
     jvm("desktop") {
         compilations.all {
