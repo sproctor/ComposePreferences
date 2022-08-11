@@ -6,7 +6,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,27 +20,22 @@ internal fun PreferenceDialog(
     dismissText: String,
     content: @Composable () -> Unit
 ) {
-    Dialog(onDismissRequest = onDismissRequest) {
+    Dialog(title = title, onDismissRequest = onDismissRequest) {
         Surface(
             elevation = 24.dp,
             shape = MaterialTheme.shapes.medium,
         ) {
-            Column {
-                Box(
-                    modifier = Modifier
-                        .widthIn(min = 280.dp, max = 560.dp)
-                        .height(64.dp)
-                        .padding(horizontal = 24.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.align(Alignment.CenterStart),
-                        text = title,
-                        style = MaterialTheme.typography.h6
-                    )
-                }
-                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    content()
-                }
+            Column(
+                modifier = Modifier
+                    .widthIn(min = 280.dp, max = 560.dp)
+                    .padding(horizontal = 24.dp)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.h6
+                )
+                Spacer(Modifier.height(16.dp))
+                content()
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
