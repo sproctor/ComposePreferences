@@ -5,12 +5,13 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    namespace = "com.github.sproctor.composepreferences.demo"
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.github.sproctor.composepreferences.demo"
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
     }

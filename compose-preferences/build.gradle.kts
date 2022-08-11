@@ -9,21 +9,16 @@ group = "com.github.sproctor.ComposePreferences"
 version = "0.13.1"
 
 android {
-    compileSdk = 32
+    namespace = "com.github.sproctor.composepreferences"
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.1"
     }
 }
 
@@ -46,11 +41,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(compose.material)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(AndroidX.Compose.material)
+                implementation(compose.materialIconsExtended)
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.ui.window.DialogProperties
 @ExperimentalComposeUiApi
 @Composable
 internal actual fun Dialog(
+    title: String,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit,
 ) {
