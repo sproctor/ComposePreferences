@@ -19,6 +19,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.2.1"
+    }
 }
 
 kotlin {
@@ -40,6 +46,11 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(compose.material)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(AndroidX.Compose.material)
             }
         }
     }
