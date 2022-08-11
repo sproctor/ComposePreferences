@@ -27,6 +27,12 @@ android {
     }
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
 dependencies {
     implementation(project(":compose-preferences"))
     implementation(project(":compose-preferences-settings"))

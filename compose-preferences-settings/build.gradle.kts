@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.0"
+version = "0.13.1"
 
 kotlin {
     android {
@@ -35,11 +35,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 32
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

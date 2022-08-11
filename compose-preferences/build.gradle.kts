@@ -1,5 +1,3 @@
-import de.fayard.refreshVersions.core.versionFor
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -8,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.0"
+version = "0.13.1"
 
 android {
     compileSdk = 32
