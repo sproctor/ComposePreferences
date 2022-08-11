@@ -27,8 +27,9 @@ internal fun PreferenceDialog(
         ) {
             Column(
                 modifier = Modifier
+                    .width(IntrinsicSize.Min)
                     .widthIn(min = 280.dp, max = 560.dp)
-                    .padding(horizontal = 24.dp)
+                    .padding(24.dp)
             ) {
                 Text(
                     text = title,
@@ -36,6 +37,7 @@ internal fun PreferenceDialog(
                 )
                 Spacer(Modifier.height(16.dp))
                 content()
+                Spacer(Modifier.height(24.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,

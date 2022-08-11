@@ -1,9 +1,14 @@
 package com.github.sproctor.composepreferences
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconButton
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -90,6 +95,7 @@ private fun EditTextDialog(
             else -> KeyboardOptions.Default
         }
         val focusRequester = FocusRequester()
+        var transformPassword by remember(isPassword) { mutableStateOf(isPassword) }
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -97,8 +103,24 @@ private fun EditTextDialog(
             value = textValue,
             onValueChange = { textValue = it },
             singleLine = true,
-            visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = useKeyboardOptions
+            visualTransformation = if (transformPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions = useKeyboardOptions,
+            trailingIcon = {
+                if (isPassword) {
+                    IconButton(
+                        onClick = { transformPassword = !transformPassword }
+                    ) {
+                        Image(
+                            imageVector = if (transformPassword) {
+                                Icons.Default.Visibility
+                            } else {
+                                Icons.Default.VisibilityOff
+                            },
+                            contentDescription = "Toggle password visibility"
+                        )
+                    }
+                }
+            }
         )
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
