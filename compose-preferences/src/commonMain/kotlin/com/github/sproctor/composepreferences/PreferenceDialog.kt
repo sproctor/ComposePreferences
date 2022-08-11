@@ -23,13 +23,13 @@ internal fun PreferenceDialog(
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Surface(
-            modifier = Modifier.fillMaxWidth(0.8f),
             elevation = 24.dp,
             shape = MaterialTheme.shapes.medium,
         ) {
             Column {
                 Box(
                     modifier = Modifier
+                        .widthIn(min = 280.dp, max = 560.dp)
                         .height(64.dp)
                         .padding(horizontal = 24.dp)
                 ) {
@@ -43,15 +43,14 @@ internal fun PreferenceDialog(
                     content()
                 }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = onDismissRequest) {
                         Text(dismissText)
                     }
                     if (onConfirm != null) {
+                        Spacer(Modifier.width(8.dp))
                         TextButton(onClick = onConfirm) {
                             Text(confirmText)
                         }
