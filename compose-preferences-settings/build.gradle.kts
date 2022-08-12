@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.2"
+version = "0.13.3"
 
 kotlin {
     android {
