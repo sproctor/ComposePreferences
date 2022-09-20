@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    kotlin("android")
+    kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
@@ -20,12 +20,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=kotlin.RequiresOptIn"
-        )
-    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -34,12 +28,45 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-dependencies {
-    implementation(project(":compose-preferences"))
-    implementation(project(":compose-preferences-settings"))
+kotlin {
+    android()
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
 
-    implementation(compose.material)
-    implementation(AndroidX.activity.compose)
-    implementation(AndroidX.dataStore.preferences)
-    implementation("com.russhwolf:multiplatform-settings-datastore:_")
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":compose-preferences"))
+                implementation(project(":compose-preferences-settings"))
+                implementation(compose.material)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(AndroidX.activity.compose)
+                implementation(AndroidX.dataStore.preferences)
+                implementation("com.russhwolf:multiplatform-settings-datastore:_")
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation(compose.web.core)
+                implementation("com.russhwolf:multiplatform-settings-coroutines:_")
+            }
+        }
+        val desktopMain by getting {
+
+        }
+    }
+}
+
+compose.experimental {
+    web.application {}
 }

@@ -34,6 +34,10 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
 
     explicitApi()
 
@@ -41,7 +45,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(compose.material)
-                implementation(compose.materialIconsExtended)
+                // https://github.com/JetBrains/compose-jb/issues/2106 not built for js
+                // implementation(compose.materialIconsExtended)
             }
         }
     }

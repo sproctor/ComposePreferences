@@ -3,11 +3,9 @@ package com.github.sproctor.composepreferences.settings
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
-import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -16,7 +14,7 @@ import kotlinx.coroutines.launch
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
-    settings: FlowSettings,
+    settings: SuspendSettings,
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn {
@@ -34,16 +32,21 @@ public fun PreferenceScreen(
 @ExperimentalMaterialApi
 private fun LazyListScope.preferenceItemEntry(
     item: PreferenceItem,
-    settings: FlowSettings,
+    settings: SuspendSettings,
     scope: CoroutineScope,
 ) {
     when (item) {
         is TextPreferenceItem -> {
             item {
+                var value by remember { mutableStateOf("") }
+                LaunchedEffect(Unit) {
+                    value = settings.getString(item.key, "")
+                }
                 EditTextPreference(
                     item = item,
-                    value = settings.getStringOrNullFlow(item.key).collectAsState("").value,
+                    value = value,
                     onValueChange = { newValue ->
+                        value = newValue
                         scope.launch {
                             settings.putString(item.key, newValue)
                         }
@@ -53,10 +56,15 @@ private fun LazyListScope.preferenceItemEntry(
         }
         is SwitchPreferenceItem -> {
             item {
+                var value by remember { mutableStateOf(false) }
+                LaunchedEffect(Unit) {
+                    value = settings.getBoolean(item.key, false)
+                }
                 SwitchPreference(
                     item = item,
-                    value = settings.getBooleanFlow(item.key, false).collectAsState(false).value,
+                    value = value,
                     onValueChanged = { newValue ->
+                        value = newValue
                         scope.launch {
                             settings.putBoolean(item.key, newValue)
                         }
@@ -66,12 +74,18 @@ private fun LazyListScope.preferenceItemEntry(
         }
         is SingleListPreferenceItem -> {
             item {
+                var value by remember { mutableStateOf("") }
+                LaunchedEffect(Unit) {
+                    value = settings.getString(item.key, "")
+                }
                 ListPreference(
                     item = item,
-                    value = settings.getStringOrNullFlow(item.key).collectAsState("").value,
+                    value = value,
                     onValueChanged = { newValue ->
+                        value = newValue
                         scope.launch { settings.putString(item.key, newValue) }
-                    })
+                    }
+                )
             }
         }
 //        is MultiListPreferenceItem -> {
@@ -87,10 +101,15 @@ private fun LazyListScope.preferenceItemEntry(
 //        }
         is SeekbarPreferenceItem -> {
             item {
+                var value: Float? by remember { mutableStateOf(null) }
+                LaunchedEffect(Unit) {
+                    value = settings.getFloatOrNull(item.key)
+                }
                 SeekBarPreference(
                     item = item,
-                    value = settings.getFloatOrNullFlow(item.key).collectAsState(null).value,
+                    value = value,
                     onValueChanged = { newValue ->
+                        value = newValue
                         scope.launch {
                             settings.putFloat(item.key, newValue)
                         }
