@@ -1,5 +1,6 @@
 package com.github.sproctor.composepreferences
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,8 @@ public fun ListPreference(
     icon: ImageVector? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
-    dismissText: String = "CANCEL"
+    dismissText: String = "CANCEL",
+    emptyText: String? = null,
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
@@ -52,6 +54,15 @@ public fun ListPreference(
             confirmText = ""
         ) {
             Column {
+                if (entries.isEmpty() && emptyText != null) {
+                    Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+                        Text(
+                            text = emptyText,
+                            style = MaterialTheme.typography.body1.merge(),
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
                 entries.forEach { current ->
                     val isSelected = value == current.key
                     val onSelected = {

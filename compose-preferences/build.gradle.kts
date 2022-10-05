@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.4"
+version = "0.13.5"
 
 android {
     namespace = "com.github.sproctor.composepreferences"
@@ -34,10 +34,10 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    js(IR) {
-        browser()
-        binaries.executable()
-    }
+//    js(IR) {
+//        browser()
+//        binaries.executable()
+//    }
 
     explicitApi()
 
@@ -46,7 +46,7 @@ kotlin {
             dependencies {
                 api(compose.material)
                 // https://github.com/JetBrains/compose-jb/issues/2106 not built for js
-                // implementation(compose.materialIconsExtended)
+                implementation(compose.materialIconsExtended)
             }
         }
     }

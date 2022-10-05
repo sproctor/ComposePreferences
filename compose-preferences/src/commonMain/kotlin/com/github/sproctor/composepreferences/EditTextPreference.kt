@@ -7,8 +7,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.filled.Visibility
-//import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -106,20 +106,20 @@ private fun EditTextDialog(
             visualTransformation = if (transformPassword) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions = useKeyboardOptions,
             trailingIcon = {
-//                if (isPassword) {
-//                    IconButton(
-//                        onClick = { transformPassword = !transformPassword }
-//                    ) {
-//                        Image(
-//                            imageVector = if (transformPassword) {
-//                                Icons.Default.Visibility
-//                            } else {
-//                                Icons.Default.VisibilityOff
-//                            },
-//                            contentDescription = "Toggle password visibility"
-//                        )
-//                    }
-//                }
+                if (isPassword) {
+                    IconButton(
+                        onClick = { transformPassword = !transformPassword }
+                    ) {
+                        Image(
+                            imageVector = if (transformPassword) {
+                                Icons.Default.Visibility
+                            } else {
+                                Icons.Default.VisibilityOff
+                            },
+                            contentDescription = "Toggle password visibility"
+                        )
+                    }
+                }
             }
         )
         LaunchedEffect(Unit) {

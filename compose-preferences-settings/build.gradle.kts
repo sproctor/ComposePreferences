@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.4"
+version = "0.13.5"
 
 kotlin {
     android {
@@ -20,10 +20,10 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    js(IR) {
-        browser()
-        binaries.executable()
-    }
+//    js(IR) {
+//        browser()
+//        binaries.executable()
+//    }
 
     explicitApi()
 
