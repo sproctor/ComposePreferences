@@ -11,6 +11,7 @@ public interface PreferenceItem {
 }
 
 public interface ListPreferenceItem : PreferenceItem {
+    public val emptyText: String?
     public val entries: Map<String, String>
 }
 
@@ -39,6 +40,7 @@ public data class SingleListPreferenceItem(
     override val singleLineTitle: Boolean = true,
     override val icon: ImageVector? = null,
     override val enabled: Boolean = true,
+    override val emptyText: String? = null,
     override val entries: Map<String, String>,
     val key: String,
 ) : ListPreferenceItem

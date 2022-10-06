@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.sproctor.ComposePreferences"
-version = "0.13.5"
+version = project.findProperty("compose.preferences.version")!!
 
 android {
     namespace = "com.github.sproctor.composepreferences"
