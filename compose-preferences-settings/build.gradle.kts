@@ -31,6 +31,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":compose-preferences"))
+                api("com.russhwolf:multiplatform-settings:_")
                 api("com.russhwolf:multiplatform-settings-coroutines:_")
             }
         }

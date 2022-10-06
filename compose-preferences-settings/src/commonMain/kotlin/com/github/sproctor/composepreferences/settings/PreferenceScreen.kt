@@ -2,22 +2,36 @@ package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ListItem
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalSettingsApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
     settings: SuspendSettings,
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
-    LazyColumn {
+    LazyColumn(modifier) {
         items.forEach { item ->
             preferenceItemEntry(
                 item = item,
@@ -28,6 +42,7 @@ public fun PreferenceScreen(
     }
 }
 
+@ExperimentalSettingsApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 private fun LazyListScope.preferenceItemEntry(
@@ -54,6 +69,7 @@ private fun LazyListScope.preferenceItemEntry(
                 )
             }
         }
+
         is SwitchPreferenceItem -> {
             item {
                 var value by remember { mutableStateOf(false) }
@@ -72,18 +88,24 @@ private fun LazyListScope.preferenceItemEntry(
                 )
             }
         }
+
         is SingleListPreferenceItem -> {
             item {
-                var value by remember { mutableStateOf("") }
+                var value: String? by remember { mutableStateOf(null) }
                 LaunchedEffect(Unit) {
-                    value = settings.getString(item.key, "")
+                    value = settings.getStringOrNull(item.key)
                 }
                 ListPreference(
                     item = item,
                     value = value,
                     onValueChanged = { newValue ->
                         value = newValue
-                        scope.launch { settings.putString(item.key, newValue) }
+                        scope.launch {
+                            if (newValue != null)
+                                settings.putString(item.key, newValue)
+                            else
+                                settings.remove(item.key)
+                        }
                     }
                 )
             }
@@ -117,6 +139,7 @@ private fun LazyListScope.preferenceItemEntry(
                 )
             }
         }
+
         is SimplePreferenceItem -> {
             item {
                 Preference(
@@ -125,6 +148,7 @@ private fun LazyListScope.preferenceItemEntry(
                 )
             }
         }
+
         is PreferenceGroupItem -> {
             item {
                 Divider()
@@ -142,6 +166,7 @@ private fun LazyListScope.preferenceItemEntry(
                 )
             }
         }
+
         PreferenceDivider -> item { Divider() }
         else -> throw IllegalStateException("Unsupported preference item")
     }

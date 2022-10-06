@@ -11,7 +11,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 public fun ListPreference(
     item: SingleListPreferenceItem,
     value: String?,
-    onValueChanged: (String) -> Unit
+    onValueChanged: (String?) -> Unit
 ) {
     com.github.sproctor.composepreferences.ListPreference(
         title = item.title,
