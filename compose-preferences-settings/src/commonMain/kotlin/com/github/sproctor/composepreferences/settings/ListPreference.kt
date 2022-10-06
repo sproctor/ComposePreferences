@@ -20,6 +20,7 @@ public fun ListPreference(
         onValueChanged = onValueChanged,
         singleLineTitle = item.singleLineTitle,
         icon = item.icon,
+        emptyText = item.emptyText,
         entries = item.entries
     )
 }
