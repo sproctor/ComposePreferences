@@ -30,7 +30,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlin {
     android()
-    jvm("desktop") {
+    jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
@@ -61,8 +61,10 @@ kotlin {
 //                implementation("com.russhwolf:multiplatform-settings-coroutines:_")
 //            }
 //        }
-        val desktopMain by getting {
-
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
     }
 }
@@ -70,3 +72,9 @@ kotlin {
 //compose.experimental {
 //    web.application {}
 //}
+
+compose.desktop {
+    application {
+        mainClass = "com.github.sproctor.composepreferences.demo.MainKt"
+    }
+}

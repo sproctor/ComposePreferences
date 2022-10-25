@@ -1,11 +1,10 @@
 package com.github.sproctor.composepreferences.demo
 
-import android.content.Context
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -13,27 +12,32 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.github.sproctor.composepreferences.settings.*
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import com.github.sproctor.composepreferences.settings.PreferenceDivider
+import com.github.sproctor.composepreferences.settings.PreferenceGroupItem
+import com.github.sproctor.composepreferences.settings.PreferenceScreen
+import com.github.sproctor.composepreferences.settings.SeekbarPreferenceItem
+import com.github.sproctor.composepreferences.settings.SingleListPreferenceItem
+import com.github.sproctor.composepreferences.settings.SwitchPreferenceItem
+import com.github.sproctor.composepreferences.settings.TextPreferenceItem
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.ExperimentalSettingsImplementation
-import com.russhwolf.settings.datastore.DataStoreSettings
+import com.russhwolf.settings.PreferencesSettings
+import com.russhwolf.settings.coroutines.toFlowSettings
+import java.util.prefs.Preferences
 import kotlin.math.roundToInt
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class,
+    ExperimentalSettingsApi::class
+)
+fun main(args: Array<String>) {
+    val settings = PreferencesSettings(Preferences.userRoot()).toFlowSettings()
 
-class MainActivity : ComponentActivity() {
-    @OptIn(
-        ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-        ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class
-    )
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val settings = DataStoreSettings(dataStore)
-
-        setContent {
+    application {
+        Window(
+            title = "Compose Preferences Demo",
+            onCloseRequest = ::exitApplication
+        ) {
             Scaffold(
                 topBar = {
                     TopAppBar(

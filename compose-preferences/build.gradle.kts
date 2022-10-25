@@ -29,7 +29,7 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    jvm("desktop") {
+    jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }

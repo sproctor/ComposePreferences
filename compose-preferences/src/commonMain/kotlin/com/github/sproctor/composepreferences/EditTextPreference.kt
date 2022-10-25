@@ -64,6 +64,7 @@ public fun EditTextPreference(
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 private fun EditTextDialog(
