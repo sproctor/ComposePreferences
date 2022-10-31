@@ -1,18 +1,12 @@
 package com.github.sproctor.composepreferences
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -32,6 +26,7 @@ public fun ListPreference(
     entries: Map<String?, String>,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
+    confirmText: String = "OK",
     emptyText: String? = null,
 ) {
     val showDialog = remember { mutableStateOf(false) }
@@ -46,12 +41,17 @@ public fun ListPreference(
         onClick = { showDialog.value = true },
     )
 
+    var selectedValue by remember { mutableStateOf(value) }
     if (showDialog.value) {
         PreferenceDialog(
             onDismissRequest = closeDialog,
             title = title,
             dismissText = dismissText,
-            confirmText = ""
+            confirmText = confirmText,
+            onConfirm = {
+                onValueChanged(selectedValue)
+                closeDialog()
+            }
         ) {
             Column {
                 if (entries.isEmpty() && emptyText != null) {
@@ -64,23 +64,19 @@ public fun ListPreference(
                     }
                 }
                 entries.forEach { current ->
-                    val isSelected = value == current.key
-                    val onSelected = {
-                        onValueChanged(current.key)
-                        closeDialog()
-                    }
+                    val isSelected = selectedValue == current.key
                     Row(Modifier
                         .fillMaxWidth()
                         .selectable(
                             selected = isSelected,
-                            onClick = { if (!isSelected) onSelected() }
+                            onClick = { selectedValue = current.key }
                         )
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(
                             selected = isSelected,
-                            onClick = { if (!isSelected) onSelected() }
+                            onClick = { selectedValue = current.key }
                         )
                         Text(
                             text = current.value,

@@ -26,43 +26,31 @@ import androidx.compose.ui.unit.dp
 internal fun PreferenceDialog(
     title: String,
     onDismissRequest: () -> Unit,
-    onConfirm: (() -> Unit)? = null,
+    onConfirm: (() -> Unit),
     confirmText: String,
     dismissText: String,
     content: @Composable () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismissRequest,
-        buttons = {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                TextButton(onClick = onDismissRequest) {
-                    Text(dismissText)
-                }
-                if (onConfirm != null) {
-                    Spacer(Modifier.width(8.dp))
-                    TextButton(onClick = onConfirm) {
-                        Text(confirmText)
-                    }
-                }
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(confirmText)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(dismissText)
             }
         },
         text = {
-            Column(
-                modifier = Modifier
-                    .width(IntrinsicSize.Min)
-                    .widthIn(min = 280.dp, max = 560.dp)
-                    .padding(24.dp)
-            ) {
+            Column {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.h6
                 )
                 Spacer(Modifier.height(16.dp))
                 content()
-//                Spacer(Modifier.height(24.dp))
             }
         }
     )
