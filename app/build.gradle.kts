@@ -35,10 +35,6 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-//    js(IR) {
-//        browser()
-//        binaries.executable()
-//    }
 
     sourceSets {
         val commonMain by getting {
@@ -55,12 +51,6 @@ kotlin {
                 implementation("com.russhwolf:multiplatform-settings-datastore:_")
             }
         }
-//        val jsMain by getting {
-//            dependencies {
-//                implementation(compose.web.core)
-//                implementation("com.russhwolf:multiplatform-settings-coroutines:_")
-//            }
-//        }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
@@ -68,10 +58,6 @@ kotlin {
         }
     }
 }
-
-//compose.experimental {
-//    web.application {}
-//}
 
 compose.desktop {
     application {
