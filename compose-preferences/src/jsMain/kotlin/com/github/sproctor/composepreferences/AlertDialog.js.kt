@@ -10,12 +10,12 @@ internal actual fun AlertDialog(
     buttons: @Composable () -> Unit,
     text: @Composable () -> Unit,
 ) {
-//    Window(
-//        title = "Alert",
-//    ) {
-//        Column {
-//            text()
-//            buttons()
-//        }
-//    }
+    Window(
+        title = "Alert",
+    ) {
+        Column {
+            text()
+            buttons()
+        }
+    }
 }
