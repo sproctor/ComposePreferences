@@ -3,14 +3,12 @@ package com.github.sproctor.composepreferences.settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.launch
 
 @ExperimentalSettingsApi
-@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun PreferenceScreen(
@@ -29,7 +27,6 @@ public fun PreferenceScreen(
 }
 
 @ExperimentalSettingsApi
-@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 private fun PreferenceItemEntry(

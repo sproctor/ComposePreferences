@@ -2,10 +2,7 @@ package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 
-
-@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun ListPreference(

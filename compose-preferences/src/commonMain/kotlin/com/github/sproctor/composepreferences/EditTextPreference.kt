@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 
-@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 public fun EditTextPreference(
@@ -65,7 +63,6 @@ public fun EditTextPreference(
 }
 
 @ExperimentalMaterialApi
-@ExperimentalComposeUiApi
 @Composable
 private fun EditTextDialog(
     title: String,

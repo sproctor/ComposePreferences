@@ -3,7 +3,7 @@ package com.github.sproctor.composepreferences
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 internal actual fun AlertDialog(
     onDismissRequest: () -> Unit,

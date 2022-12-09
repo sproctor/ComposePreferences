@@ -35,6 +35,10 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -56,11 +60,21 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+        val jsMain by getting  {
+            dependencies {
+                implementation(compose.web.core)
+            }
+        }
     }
 }
 
-compose.desktop {
-    application {
-        mainClass = "com.github.sproctor.composepreferences.demo.MainKt"
+compose {
+    desktop {
+        application {
+            mainClass = "com.github.sproctor.composepreferences.demo.MainKt"
+        }
+    }
+    experimental {
+        web.application {}
     }
 }
