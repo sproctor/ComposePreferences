@@ -1,5 +1,5 @@
-//package com.github.sproctor.composepreferences.settings
-//
+package com.github.sproctor.composepreferences.settings
+
 //import androidx.compose.material.ExperimentalMaterialApi
 //import androidx.compose.runtime.Composable
 //
