@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -26,7 +26,7 @@ public fun PreferenceGroup(
             modifier = Modifier.fillMaxWidth().padding(top = 24.dp, bottom = 8.dp)
         ) {
             Text(
-                text = title, fontSize = 14.sp, color = MaterialTheme.colors.secondary, fontWeight = FontWeight.Medium,
+                text = title, fontSize = 14.sp, color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
