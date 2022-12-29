@@ -13,10 +13,6 @@ plugins {
 group = "com.seanproctor"
 version = project.findProperty("compose.preferences.version")!!
 
-val localProperties = Properties().apply {
-    load(File(rootProject.rootDir, "local.properties").inputStream())
-}
-
 android {
     namespace = "com.seanproctor.composepreferences"
     compileSdk = 33
@@ -61,6 +57,10 @@ kotlin {
     }
 }
 
+val localProperties = Properties().apply {
+    load(File(rootProject.rootDir, "local.properties").inputStream())
+}
+
 val dokkaOutputDir = buildDir.resolve("dokka")
 
 tasks.dokkaHtml.configure {
@@ -96,7 +96,7 @@ publishing {
             url.set("https://github.com/sproctor/ComposePreferences")
             licenses {
                 license {
-                    name.set("MIT")
+                    name.set("Apache 2.0")
                     url.set("https://github.com/sproctor/ComposePreferences/blob/master/LICENSE")
                 }
             }

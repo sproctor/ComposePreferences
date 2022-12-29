@@ -1,5 +1,6 @@
+package com.github.sproctor.composepreferences.demo
+
 import androidx.compose.ui.window.Window
-import com.github.sproctor.composepreferences.demo.DemoContent
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.StorageSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
