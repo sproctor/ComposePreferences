@@ -1,21 +1,22 @@
 package com.github.sproctor.composepreferences
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun Preference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
@@ -36,45 +37,25 @@ public fun Preference(
     )
 }
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun Preference(
     title: String,
     summary: @Composable (() -> Unit)? = null,
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
 ) {
     val isEnabled = LocalPreferenceEnabledStatus.current && enabled
-    StatusWrapper(enabled = isEnabled) {
-        ListItem(
-            text = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
-            secondaryText = summary,
-            icon = {
-                if (icon != null) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(top = 8.dp)
-                            .size(24.dp)
-                    )
-                }
-            },
-            modifier = Modifier.clickable(onClick = { if (isEnabled) onClick() }),
-            trailing = trailing,
-        )
-    }
-
-}
-
-@Composable
-internal fun StatusWrapper(enabled: Boolean = true, content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalContentAlpha provides if (enabled) ContentAlpha.high else ContentAlpha.disabled) {
-        content()
-    }
+    ListItem(
+        headlineText = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
+        supportingText = summary,
+        leadingContent = icon,
+        modifier = if (isEnabled) { Modifier.clickable { onClick() } } else { Modifier },
+        trailingContent = trailing,
+    )
 }
 
 internal val LocalPreferenceEnabledStatus: ProvidableCompositionLocal<Boolean> =

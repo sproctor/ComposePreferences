@@ -2,17 +2,16 @@ package com.github.sproctor.composepreferences
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun ListPreference(
     title: String,
@@ -20,7 +19,7 @@ public fun ListPreference(
     value: String?,
     onValueChanged: (String?) -> Unit = {},
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     entries: Map<String?, String>,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
@@ -42,7 +41,7 @@ public fun ListPreference(
     var selectedValue by remember { mutableStateOf(value) }
     if (showDialog.value) {
         PreferenceDialog(
-            onDismissRequest = closeDialog,
+            onDismiss = closeDialog,
             title = title,
             dismissText = dismissText,
             confirmText = confirmText,
@@ -56,7 +55,7 @@ public fun ListPreference(
                     Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
                         Text(
                             text = emptyText,
-                            style = MaterialTheme.typography.body1.merge(),
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     }
@@ -78,7 +77,7 @@ public fun ListPreference(
                         )
                         Text(
                             text = current.value,
-                            style = MaterialTheme.typography.body1.merge(),
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     }

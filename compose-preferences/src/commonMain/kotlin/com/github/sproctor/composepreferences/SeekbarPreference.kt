@@ -4,22 +4,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun SeekBarPreference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     value: Float?,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     steps: Int = 0,

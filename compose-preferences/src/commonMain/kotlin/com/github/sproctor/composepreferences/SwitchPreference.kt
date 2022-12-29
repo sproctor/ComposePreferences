@@ -1,17 +1,16 @@
 package com.github.sproctor.composepreferences
 
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Switch
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun SwitchPreference(
     title: String,
     summary: String? = null,
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     value: Boolean,
     onValueChanged: (Boolean) -> Unit,
     enabled: Boolean = true,

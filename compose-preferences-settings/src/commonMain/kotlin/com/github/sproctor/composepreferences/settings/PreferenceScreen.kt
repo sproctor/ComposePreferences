@@ -1,7 +1,7 @@
 package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -9,7 +9,7 @@ import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.launch
 
 @ExperimentalSettingsApi
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
@@ -27,7 +27,7 @@ public fun PreferenceScreen(
 }
 
 @ExperimentalSettingsApi
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 private fun PreferenceItemEntry(
     item: PreferenceItem,
@@ -125,9 +125,12 @@ private fun PreferenceItemEntry(
 
         is PreferenceGroupItem -> {
             Divider()
-            ListItem(icon = {}) {
-                Text(text = item.title, color = MaterialTheme.colors.primary)
-            }
+            ListItem(
+                leadingContent = {},
+                headlineText = {
+                    Text(text = item.title, color = MaterialTheme.colorScheme.primary)
+                }
+            )
             item.items.forEach { subItem ->
                 PreferenceItemEntry(
                     item = subItem,

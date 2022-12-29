@@ -5,12 +5,16 @@ import androidx.compose.runtime.Composable
 @Composable
 internal actual fun AlertDialog(
     onDismissRequest: () -> Unit,
-    buttons: @Composable () -> Unit,
+    confirmButton: @Composable () -> Unit,
+    dismissButton: @Composable (() -> Unit)?,
+    title: @Composable () -> Unit,
     text: @Composable () -> Unit,
 ) {
-    androidx.compose.material.AlertDialog(
+    androidx.compose.material3.AlertDialog(
         onDismissRequest = onDismissRequest,
-        buttons = buttons,
+        confirmButton = confirmButton,
+        dismissButton = dismissButton,
+        title = title,
         text = text,
     )
 }

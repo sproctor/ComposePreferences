@@ -45,7 +45,8 @@ kotlin {
             dependencies {
                 implementation(project(":compose-preferences"))
                 implementation(project(":compose-preferences-settings"))
-                implementation(compose.material)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.material3)
             }
         }
         val androidMain by getting {

@@ -5,17 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.Checkbox
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
-@ExperimentalMaterialApi
+@ExperimentalMaterial3Api
 @Composable
 public fun MultiSelectListPreference(
     title: String,
@@ -23,7 +22,7 @@ public fun MultiSelectListPreference(
     values: Set<String>,
     onValuesChanged: (Set<String>) -> Unit = {},
     singleLineTitle: Boolean = true,
-    icon: ImageVector? = null,
+    icon: (@Composable () -> Unit)? = null,
     entries: Map<String, String>,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
@@ -46,7 +45,7 @@ public fun MultiSelectListPreference(
     if (showDialog.value) {
         var selectedValues by remember(values) { mutableStateOf(values) }
         PreferenceDialog(
-            onDismissRequest = { closeDialog() },
+            onDismiss = { closeDialog() },
             title = title,
             onConfirm = {
                 onValuesChanged(selectedValues)
@@ -82,7 +81,7 @@ public fun MultiSelectListPreference(
                         )
                         Text(
                             text = current.value,
-                            style = MaterialTheme.typography.body1.merge(),
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp)
                         )
                     }

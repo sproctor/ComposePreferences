@@ -1,10 +1,7 @@
 package com.github.sproctor.composepreferences.demo
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -17,7 +14,7 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalSettingsApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalSettingsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DemoContent(settings: SuspendSettings) {
     Scaffold(
@@ -35,13 +32,13 @@ fun DemoContent(settings: SuspendSettings) {
                     title = "Text Preference",
                     summary = "No value entered",
                     key = "pref_string",
-                    icon = Icons.Outlined.Edit
+                    icon = { Icon(Icons.Outlined.Edit, null) }
                 ),
                 TextPreferenceItem(
                     title = "Password Preference",
                     summary = "No password",
                     key = "pref_password",
-                    icon = Icons.Default.Lock,
+                    icon = { Icon(Icons.Default.Lock, null) },
                     isPassword = true
                 ),
                 SwitchPreferenceItem(
@@ -57,7 +54,7 @@ fun DemoContent(settings: SuspendSettings) {
                             summary = "Select one item from a list in a dialog",
                             key = "pref_list",
                             singleLineTitle = true,
-                            icon = Icons.Outlined.List,
+                            icon = { Icon(Icons.Outlined.List, null) },
                             entries = mapOf(
                                 "key1" to "Item1",
                                 "key2" to "Item2"
@@ -82,7 +79,7 @@ fun DemoContent(settings: SuspendSettings) {
                     summary = "Select a value on a seekbar",
                     key = "pref_seek",
                     defaultValue = 50F,
-                    icon = Icons.Outlined.AccountCircle,
+                    icon = { Icon(Icons.Outlined.AccountCircle, null) },
                     steps = 4,
                     valueRange = 50F..100F,
                     valueRepresentation = { value -> "${value.roundToInt()} %" }

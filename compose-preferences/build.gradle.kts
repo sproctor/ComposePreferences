@@ -52,7 +52,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.material)
+                api(compose.foundation)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
             }
         }
