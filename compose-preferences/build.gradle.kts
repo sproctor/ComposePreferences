@@ -19,7 +19,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -48,7 +47,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.foundation)
+                api(compose.runtime)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
