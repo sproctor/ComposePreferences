@@ -1,43 +1,18 @@
-import java.util.Properties
-import java.net.URI
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("maven-publish")
-    id("signing")
-    id("org.jetbrains.dokka")
     id("org.jetbrains.compose")
+    id("com.vanniktech.maven.publish.base")
 }
 
 group = "com.seanproctor"
 version = project.findProperty("compose.preferences.version")!!
 
-android {
-    namespace = "com.seanproctor.composepreferences"
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 21
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
 kotlin {
     android {
         publishLibraryVariants("release")
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
     }
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
+    jvm()
     js(IR) {
         browser()
     }
@@ -54,70 +29,25 @@ kotlin {
             }
         }
     }
+
+    jvmToolchain(11)
 }
 
-val localProperties = Properties().apply {
-    load(File(rootProject.rootDir, "local.properties").inputStream())
-}
+android {
+    namespace = "com.seanproctor.composepreferences"
+    compileSdk = 33
 
-val dokkaOutputDir = buildDir.resolve("dokka")
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(dokkaOutputDir)
-}
-
-val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") {
-    delete(dokkaOutputDir)
-}
-
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
-    archiveClassifier.set("javadoc")
-    from(dokkaOutputDir)
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "sonatype"
-            url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = localProperties.getProperty("ossrhUsername", "")
-                password = localProperties.getProperty("ossrhPassword", "")
-            }
-        }
+    defaultConfig {
+        minSdk = 21
     }
-    publications.withType<MavenPublication> {
-        artifact(javadocJar)
-        pom {
-            name.set("Compose Preferences")
-            description.set("A Compose library to emulate the style of Android preferences.")
-            url.set("https://github.com/sproctor/ComposePreferences")
-            licenses {
-                license {
-                    name.set("Apache 2.0")
-                    url.set("https://github.com/sproctor/ComposePreferences/blob/master/LICENSE")
-                }
-            }
-            developers {
-                developer {
-                    id.set("sproctor")
-                    name.set("Sean Proctor")
-                    email.set("sproctor@gmail.com")
-                }
-            }
-            scm {
-                url.set("https://github.com/sproctor/ComposePreferences/tree/main")
-            }
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
-ext["signing.keyId"] = localProperties.getProperty("signing.keyId", "")
-ext["signing.password"] = localProperties.getProperty("signing.password", "")
-ext["signing.secretKeyRingFile"] =
-    localProperties.getProperty("signing.secretKeyRingFile", "")
-
-signing {
-    sign(publishing.publications)
+configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
+    configure(
+        com.vanniktech.maven.publish.KotlinMultiplatform(javadocJar = com.vanniktech.maven.publish.JavadocJar.Empty())
+    )
 }
