@@ -1,10 +1,8 @@
 package com.github.sproctor.composepreferences
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.onClick
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -29,40 +27,18 @@ internal actual fun AlertDialog(
     title: @Composable () -> Unit,
     text: @Composable () -> Unit,
 ) {
-    AlertDialog(
+    AlertDialogImpl(
         onDismissRequest = onDismissRequest,
-    ) {
-        AlertDialogContent(
-            buttons = {
-                AlertDialogFlowRow(
-                    mainAxisSpacing = ButtonsMainAxisSpacing,
-                    crossAxisSpacing = ButtonsCrossAxisSpacing
-                ) {
-                    dismissButton?.invoke()
-                    confirmButton()
-                }
-            },
-            icon = null,
-            title = title,
-            text = text,
-            shape = AlertDialogDefaults.shape,
-            containerColor = AlertDialogDefaults.containerColor,
-            tonalElevation = AlertDialogDefaults.TonalElevation,
-            // Note that a button content color is provided here from the dialog's token, but in
-            // most cases, TextButtons should be used for dismiss and confirm buttons.
-            // TextButtons will not consume this provided content color value, and will used their
-            // own defined or default colors.
-            buttonContentColor = MaterialTheme.colorScheme.primary,
-            iconContentColor = AlertDialogDefaults.iconContentColor,
-            titleContentColor = AlertDialogDefaults.titleContentColor,
-            textContentColor = AlertDialogDefaults.textContentColor,
-        )
-    }
+        confirmButton = confirmButton,
+        dismissButton = dismissButton,
+        title = title,
+        text = text,
+    )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3Api
 @Composable
-private fun AlertDialog(
+private fun AlertDialogImpl(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable () -> Unit,
     modifier: Modifier = Modifier,
@@ -76,7 +52,7 @@ private fun AlertDialog(
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
     textContentColor: Color = AlertDialogDefaults.textContentColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
-) = AlertDialog(onDismissRequest = onDismissRequest) {
+) = AlertDialog(onDismissRequest = onDismissRequest, modifier = modifier) { modifier ->
     AlertDialogContent(
         buttons = {
             AlertDialogFlowRow(
@@ -105,12 +81,12 @@ private fun AlertDialog(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @Composable
 private fun AlertDialog(
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
+    modifier: Modifier,
+    content: @Composable (Modifier) -> Unit
 ) {
     Popup(
         popupPositionProvider = object : PopupPositionProvider {
@@ -132,11 +108,13 @@ private fun AlertDialog(
                 },
             contentAlignment = Alignment.Center
         ) {
-            Box(
-                Modifier.onClick {  }
-            ) {
-                content()
-            }
+            content(modifier
+                .pointerInput(onDismissRequest) {
+                    detectTapGestures(onPress = {
+                        // Workaround to disable clicks on Surface background
+                        // https://github.com/JetBrains/compose-jb/issues/2581
+                    })
+                })
         }
     }
 }
