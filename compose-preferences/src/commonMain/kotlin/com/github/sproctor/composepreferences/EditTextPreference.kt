@@ -40,7 +40,7 @@ public fun EditTextPreference(
     val text = if (isPassword) "(hidden)" else value
     Preference(
         title = title,
-        summary = text ?: summary,
+        summary = text?.ifBlank { null } ?: summary,
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
