@@ -23,7 +23,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(compose.runtime)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
             }
