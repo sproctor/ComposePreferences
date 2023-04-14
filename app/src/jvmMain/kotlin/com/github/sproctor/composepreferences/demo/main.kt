@@ -8,7 +8,7 @@ import com.russhwolf.settings.coroutines.toFlowSettings
 import java.util.prefs.Preferences
 
 @OptIn(ExperimentalSettingsApi::class)
-fun main(args: Array<String>) {
+fun main() {
     val settings = PreferencesSettings(Preferences.userRoot()).toFlowSettings()
 
     application {
