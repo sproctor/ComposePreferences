@@ -10,6 +10,10 @@ plugins {
     id("com.vanniktech.maven.publish.base") apply false
 }
 
+tasks.wrapper {
+    gradleVersion = "8.1.1"
+}
+
 allprojects {
     repositories {
         mavenCentral()
