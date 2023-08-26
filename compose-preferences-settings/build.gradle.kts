@@ -9,7 +9,7 @@ group = "com.seanproctor"
 version = project.findProperty("compose.preferences.version")!!
 
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("release")
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -42,7 +42,7 @@ kotlin {
 
 android {
     namespace = "com.github.sproctor.composepreferences.settings"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21

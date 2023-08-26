@@ -1,10 +1,8 @@
 package com.github.sproctor.composepreferences
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 
-@ExperimentalMaterial3Api
 @Composable
 public fun SwitchPreference(
     title: String,

@@ -1,7 +1,6 @@
 package com.github.sproctor.composepreferences
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,7 +9,6 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
 
-@ExperimentalMaterial3Api
 @Composable
 public fun Preference(
     title: String,
@@ -37,7 +35,6 @@ public fun Preference(
     )
 }
 
-@ExperimentalMaterial3Api
 @Composable
 public fun Preference(
     title: String,
@@ -50,8 +47,8 @@ public fun Preference(
 ) {
     val isEnabled = LocalPreferenceEnabledStatus.current && enabled
     ListItem(
-        headlineText = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
-        supportingText = summary,
+        headlineContent = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
+        supportingContent = summary,
         leadingContent = icon,
         modifier = if (isEnabled) { Modifier.clickable { onClick() } } else { Modifier },
         trailingContent = trailing,

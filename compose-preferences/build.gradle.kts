@@ -9,7 +9,7 @@ group = "com.seanproctor"
 version = project.findProperty("compose.preferences.version")!!
 
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("release")
     }
     jvm()
@@ -34,7 +34,7 @@ kotlin {
 
 android {
     namespace = "com.seanproctor.composepreferences"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21

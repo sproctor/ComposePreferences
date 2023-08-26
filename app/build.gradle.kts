@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.github.sproctor.composepreferences.demo"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.github.sproctor.composepreferences.demo"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
@@ -29,7 +29,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 kotlin {
-    android()
+    androidTarget()
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"

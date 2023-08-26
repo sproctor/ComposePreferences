@@ -9,7 +9,6 @@ import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.launch
 
 @ExperimentalSettingsApi
-@ExperimentalMaterial3Api
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
@@ -27,7 +26,6 @@ public fun PreferenceScreen(
 }
 
 @ExperimentalSettingsApi
-@ExperimentalMaterial3Api
 @Composable
 private fun PreferenceItemEntry(
     item: PreferenceItem,
@@ -127,7 +125,7 @@ private fun PreferenceItemEntry(
             Divider()
             ListItem(
                 leadingContent = {},
-                headlineText = {
+                headlineContent = {
                     Text(text = item.title, color = MaterialTheme.colorScheme.primary)
                 }
             )
