@@ -19,14 +19,13 @@ public fun Preference(
     onClick: () -> Unit = { },
     trailing: @Composable (() -> Unit)? = null
 ) {
-    val summaryComposable: @Composable (() -> Unit)? = summary?.let {
-        {
-            Text(text = it)
-        }
-    }
     Preference(
         title = title,
-        summary = summaryComposable,
+        summary = {
+            if (summary != null) {
+                Text(text = summary)
+            }
+        },
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
@@ -38,7 +37,7 @@ public fun Preference(
 @Composable
 public fun Preference(
     title: String,
-    summary: @Composable (() -> Unit)? = null,
+    summary: @Composable (() -> Unit),
     singleLineTitle: Boolean = true,
     icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
@@ -47,10 +46,19 @@ public fun Preference(
 ) {
     val isEnabled = LocalPreferenceEnabledStatus.current && enabled
     ListItem(
-        headlineContent = { Text(text = title, maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE) },
+        headlineContent = {
+            Text(
+                text = title,
+                maxLines = if (singleLineTitle) 1 else Int.MAX_VALUE
+            )
+        },
         supportingContent = summary,
         leadingContent = icon,
-        modifier = if (isEnabled) { Modifier.clickable { onClick() } } else { Modifier },
+        modifier = if (isEnabled) {
+            Modifier.clickable { onClick() }
+        } else {
+            Modifier
+        },
         trailingContent = trailing,
     )
 }
