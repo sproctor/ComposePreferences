@@ -1,7 +1,6 @@
 package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
 
 public interface PreferenceItem {
     public val title: String
