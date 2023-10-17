@@ -30,8 +30,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":compose-preferences"))
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
                 api("com.russhwolf:multiplatform-settings:_")
                 api("com.russhwolf:multiplatform-settings-coroutines:_")
             }
