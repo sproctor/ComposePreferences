@@ -65,9 +65,7 @@ public fun ListPreference(
                         )
                     }
                 }
-                println("selected value: $selectedValue, value: $value")
                 entries.forEach { current ->
-                    println("current key: ${current.key}")
                     val isSelected = selectedValue == current.key
                     Row(Modifier
                         .fillMaxWidth()

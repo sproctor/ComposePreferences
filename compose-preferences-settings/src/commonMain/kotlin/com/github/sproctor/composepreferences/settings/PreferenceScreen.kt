@@ -66,7 +66,6 @@ private fun PreferenceItemEntry(
 
         is SingleListPreferenceItem -> {
             val value by settings.getStringOrNullFlow(item.key).collectAsState(null)
-            println("SingleListPreferenceItem value: $value")
             ListPreference(
                 item = item,
                 value = value,
