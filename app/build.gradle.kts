@@ -45,25 +45,19 @@ kotlin {
             dependencies {
                 implementation(project(":compose-preferences"))
                 implementation(project(":compose-preferences-settings"))
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(AndroidX.activity.compose)
-                implementation(AndroidX.dataStore.preferences)
-                implementation("com.russhwolf:multiplatform-settings-datastore:_")
+                implementation(libs.activity.compose)
+                implementation(libs.datastore.preferences)
+                implementation(libs.settings.datastore)
             }
         }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-            }
-        }
-        val jsMain by getting  {
-            dependencies {
-                implementation(compose.web.core)
             }
         }
     }

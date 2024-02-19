@@ -10,9 +10,15 @@ pluginManagement {
 }
 
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.3"
+    id("de.fayard.refreshVersions") version "0.60.5"
 }
 
 include(":app")
 include(":compose-preferences")
 include(":compose-preferences-settings")
+
+// work-around https://github.com/Splitties/refreshVersions/issues/640
+refreshVersions {
+    file("build/tmp/refreshVersions").mkdirs()
+    versionsPropertiesFile = file("build/tmp/refreshVersions/versions.properties")
+}

@@ -1,8 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("com.vanniktech.maven.publish.base")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.vanniktech)
 }
 
 group = "com.seanproctor"
@@ -31,9 +31,9 @@ kotlin {
             dependencies {
                 api(project(":compose-preferences"))
                 implementation(compose.material3)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
-                api("com.russhwolf:multiplatform-settings:_")
-                api("com.russhwolf:multiplatform-settings-coroutines:_")
+                implementation(libs.coroutines)
+                api(libs.settings)
+                api(libs.settings.coroutines)
             }
         }
     }
