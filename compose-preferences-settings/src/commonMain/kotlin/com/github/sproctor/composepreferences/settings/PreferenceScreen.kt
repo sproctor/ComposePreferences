@@ -1,18 +1,21 @@
 package com.github.sproctor.composepreferences.settings
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.coroutines.SuspendSettings
+import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.launch
 
 @ExperimentalSettingsApi
 @Composable
 public fun PreferenceScreen(
     items: List<PreferenceItem>,
-    settings: SuspendSettings,
+    settings: FlowSettings,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier) {
@@ -29,20 +32,18 @@ public fun PreferenceScreen(
 @Composable
 private fun PreferenceItemEntry(
     item: PreferenceItem,
-    settings: SuspendSettings,
+    settings: FlowSettings,
 ) {
     val scope = rememberCoroutineScope()
     when (item) {
         is TextPreferenceItem -> {
-            var value by remember { mutableStateOf("") }
-            LaunchedEffect(Unit) {
-                value = settings.getString(item.key, "")
-            }
+            val value by settings.getStringFlow(item.key, "").collectAsState("")
+            var displayValue by remember(value) { mutableStateOf(value) }
             EditTextPreference(
                 item = item,
                 value = value,
                 onValueChange = { newValue ->
-                    value = newValue
+                    displayValue = newValue
                     scope.launch {
                         settings.putString(item.key, newValue)
                     }
@@ -51,15 +52,11 @@ private fun PreferenceItemEntry(
         }
 
         is SwitchPreferenceItem -> {
-            var value by remember { mutableStateOf(false) }
-            LaunchedEffect(Unit) {
-                value = settings.getBoolean(item.key, false)
-            }
+            val value by settings.getBooleanFlow(item.key, false).collectAsState(false)
             SwitchPreference(
                 item = item,
                 value = value,
                 onValueChanged = { newValue ->
-                    value = newValue
                     scope.launch {
                         settings.putBoolean(item.key, newValue)
                     }
@@ -68,15 +65,12 @@ private fun PreferenceItemEntry(
         }
 
         is SingleListPreferenceItem -> {
-            var value: String? by remember { mutableStateOf(null) }
-            LaunchedEffect(Unit) {
-                value = settings.getStringOrNull(item.key)
-            }
+            val value by settings.getStringOrNullFlow(item.key).collectAsState(null)
+            println("SingleListPreferenceItem value: $value")
             ListPreference(
                 item = item,
                 value = value,
                 onValueChanged = { newValue ->
-                    value = newValue
                     scope.launch {
                         if (newValue != null)
                             settings.putString(item.key, newValue)
@@ -98,15 +92,11 @@ private fun PreferenceItemEntry(
 //            }
 //        }
         is SeekbarPreferenceItem -> {
-            var value: Float? by remember { mutableStateOf(null) }
-            LaunchedEffect(Unit) {
-                value = settings.getFloatOrNull(item.key)
-            }
+            val value: Float? by settings.getFloatOrNullFlow(item.key).collectAsState(null)
             SeekBarPreference(
                 item = item,
                 value = value,
                 onValueChanged = { newValue ->
-                    value = newValue
                     scope.launch {
                         settings.putFloat(item.key, newValue)
                     }

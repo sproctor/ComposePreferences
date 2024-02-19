@@ -32,8 +32,7 @@ public fun ListPreference(
     confirmText: String = "OK",
     emptyText: String? = null,
 ) {
-    val showDialog = remember { mutableStateOf(false) }
-    val closeDialog = { showDialog.value = false }
+    var showDialog by remember { mutableStateOf(false) }
 
     Preference(
         title = title,
@@ -41,19 +40,19 @@ public fun ListPreference(
         singleLineTitle = singleLineTitle,
         icon = icon,
         enabled = enabled,
-        onClick = { showDialog.value = true },
+        onClick = { showDialog = true },
     )
 
-    var selectedValue by remember { mutableStateOf(value) }
-    if (showDialog.value) {
+    if (showDialog) {
+        var selectedValue by remember(value) { mutableStateOf(value) }
         PreferenceDialog(
-            onDismiss = closeDialog,
+            onDismiss = { showDialog = false },
             title = title,
             dismissText = dismissText,
             confirmText = confirmText,
             onConfirm = {
                 onValueChanged(selectedValue)
-                closeDialog()
+                showDialog = false
             }
         ) {
             Column {
@@ -66,7 +65,9 @@ public fun ListPreference(
                         )
                     }
                 }
+                println("selected value: $selectedValue, value: $value")
                 entries.forEach { current ->
+                    println("current key: ${current.key}")
                     val isSelected = selectedValue == current.key
                     Row(Modifier
                         .fillMaxWidth()

@@ -8,6 +8,7 @@ public fun ListPreference(
     value: String?,
     onValueChanged: (String?) -> Unit
 ) {
+    println("settings.ListPreference value: $value")
     com.github.sproctor.composepreferences.ListPreference(
         title = item.title,
         summary = item.summary,

@@ -1,22 +1,22 @@
 package com.github.sproctor.composepreferences.demo
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.List
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.sproctor.composepreferences.settings.*
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.coroutines.SuspendSettings
+import com.russhwolf.settings.coroutines.FlowSettings
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalSettingsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun DemoContent(settings: SuspendSettings) {
+fun DemoContent(settings: FlowSettings) {
     Scaffold(
         topBar = {
             TopAppBar(
