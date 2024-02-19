@@ -60,17 +60,18 @@ fun DemoContent(settings: FlowSettings) {
                                 "key2" to "Item2"
                             ),
                         ),
-//                                    MultiListPreferenceItem(
-//                                        title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
-//                                        summary = "Select multiple items from a list in a dialog",
-//                                        key = "pref_multi_list",
-//                                        singleLineTitle = false,
-//                                        icon = Icons.Outlined.List,
-//                                        entries = mapOf(
-//                                            "key1" to "Item1",
-//                                            "key2" to "Item2"
-//                                        ),
-//                                    ),
+                        MultiListPreferenceItem(
+                            title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
+                            summary = "Select multiple items from a list in a dialog",
+                            key = "pref_multi_list",
+                            singleLineTitle = false,
+                            icon = { Icon(Icons.Outlined.List, null) },
+                            entries = mapOf(
+                                "key1" to "Item1",
+                                "key2" to "Item2",
+                                "key3" to "Item3",
+                            ),
+                        ),
                     )
                 ),
                 PreferenceDivider,

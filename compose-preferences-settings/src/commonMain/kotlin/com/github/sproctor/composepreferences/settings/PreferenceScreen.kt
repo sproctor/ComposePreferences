@@ -79,17 +79,20 @@ private fun PreferenceItemEntry(
                 }
             )
         }
-//        is MultiListPreferenceItem -> {
-//            item {
-//                MultiSelectListPreference(
-//                    item = item,
-//                    values = settings.getStringOrNull(item.key) ?: emptySet(),
-//                    onValuesChanged = { newValues ->
-//                        scope.launch { settings[item.key] = newValues }
-//                    }
-//                )
-//            }
-//        }
+
+        is MultiListPreferenceItem -> {
+            val value by settings.getStringFlow(item.key, "").collectAsState("")
+            MultiSelectListPreference(
+                item = item,
+                values = value.split(",").toSet(),
+                onValuesChanged = { newValues ->
+                    scope.launch {
+                        settings.putString(item.key, newValues.joinToString(","))
+                    }
+                }
+            )
+        }
+
         is SeekbarPreferenceItem -> {
             val value: Float? by settings.getFloatOrNullFlow(item.key).collectAsState(null)
             SeekBarPreference(

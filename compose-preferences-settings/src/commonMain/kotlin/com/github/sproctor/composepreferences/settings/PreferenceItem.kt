@@ -10,11 +10,6 @@ public interface PreferenceItem {
     public val singleLineTitle: Boolean
 }
 
-public interface ListPreferenceItem : PreferenceItem {
-    public val emptyText: String?
-    public val entries: Map<String?, String>
-}
-
 public data class TextPreferenceItem(
     override val title: String,
     override val summary: String? = null,
@@ -40,20 +35,25 @@ public data class SingleListPreferenceItem(
     override val singleLineTitle: Boolean = true,
     override val icon: (@Composable () -> Unit)? = null,
     override val enabled: Boolean = true,
-    override val emptyText: String? = null,
-    override val entries: Map<String?, String>,
+    val emptyText: String? = null,
+    val entries: Map<String?, String>,
     val key: String,
-) : ListPreferenceItem
+) : PreferenceItem
 
-//public data class MultiListPreferenceItem(
-//    override val title: String,
-//    override val summary: String? = null,
-//    override val singleLineTitle: Boolean = true,
-//    override val icon: ImageVector? = null,
-//    override val enabled: Boolean = true,
-//    override val entries: Map<String, String>,
-//    val key: String,
-//) : ListPreferenceItem
+public data class MultiListPreferenceItem(
+    override val title: String,
+    override val summary: String? = null,
+    override val singleLineTitle: Boolean = true,
+    override val icon: (@Composable () -> Unit)? = null,
+    override val enabled: Boolean = true,
+    val emptyText: String? = null,
+    val entries: Map<String, String>,
+    val key: String,
+) : PreferenceItem {
+    init {
+        entries.keys.forEach { require(!it.contains(",")) }
+    }
+}
 
 public data class SeekbarPreferenceItem(
     override val title: String,
