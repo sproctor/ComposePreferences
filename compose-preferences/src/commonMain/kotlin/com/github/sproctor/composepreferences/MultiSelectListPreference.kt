@@ -9,80 +9,90 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
 public fun MultiSelectListPreference(
-    title: String,
-    summary: String? = null,
-    values: Set<String>,
-    onValuesChanged: (Set<String>) -> Unit = {},
-    singleLineTitle: Boolean = true,
+    title: @Composable () -> Unit,
+    indices: Set<Int>,
+    entries: List<String>,
+    onValuesChanged: (Set<Int>) -> Unit,
+    modifier: Modifier = Modifier,
+    summary: @Composable () -> Unit = {},
+    valueDisplayLimit: Int = 3,
     icon: (@Composable () -> Unit)? = null,
-    entries: Map<String, String>,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
     confirmText: String = "OK"
 ) {
     val showDialog = remember { mutableStateOf(false) }
     val closeDialog = { showDialog.value = false }
-    val description = entries.filter { values.contains(it.key) }.map { it.value }
-        .joinToString(separator = ", ", limit = 3)
+    val description = indices.joinToString(separator = ", ", limit = valueDisplayLimit) {
+        entries[it]
+    }
 
     Preference(
+        modifier = modifier,
         title = title,
-        summary = description.ifBlank { summary },
-        singleLineTitle = singleLineTitle,
+        summary = {
+            if (description.isNotBlank()) {
+                Text(description)
+            } else {
+                summary()
+            }
+        },
         icon = icon,
         enabled = enabled,
         onClick = { showDialog.value = true }
     )
 
     if (showDialog.value) {
-        var selectedValues by remember(values) { mutableStateOf(values) }
+        var selectedIndices by remember(indices) { mutableStateOf(indices) }
         PreferenceDialog(
             onDismiss = { closeDialog() },
             title = title,
             onConfirm = {
-                onValuesChanged(selectedValues)
+                onValuesChanged(selectedIndices)
                 closeDialog()
             },
             dismissText = dismissText,
             confirmText = confirmText
         ) {
             Column {
-                entries.forEach { current ->
-                    val isSelected = selectedValues.contains(current.key)
-                    val onSelectionChanged = {
-                        selectedValues = when (!isSelected) {
-                            true -> selectedValues + current.key
-                            false -> selectedValues - current.key
-                        }
-                    }
+                entries.forEachIndexed { index, label ->
+                    val isSelected = selectedIndices.contains(index)
+
                     Row(
                         Modifier
                             .fillMaxWidth()
                             .selectable(
                                 selected = isSelected,
-                                onClick = onSelectionChanged
+                                onClick = {
+                                    selectedIndices = if (isSelected) {
+                                        selectedIndices - index
+                                    } else {
+                                        selectedIndices + index
+                                    }
+                                },
+                                role = Role.Checkbox
                             )
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Checkbox(
                             checked = isSelected,
-                            onCheckedChange = {
-                                onSelectionChanged()
-                            }
+                            onCheckedChange = null,
                         )
                         Text(
-                            text = current.value,
+                            text = label,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp)
                         )
@@ -91,4 +101,41 @@ public fun MultiSelectListPreference(
             }
         }
     }
+}
+
+@Composable
+public fun MultiSelectListPreference(
+    title: @Composable () -> Unit,
+    key: String,
+    entries: List<String>,
+    modifier: Modifier = Modifier,
+    initialIndices: Set<Int> = emptySet(),
+    summary: @Composable () -> Unit = {},
+    valueDisplayLimit: Int = 3,
+    icon: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
+    dismissText: String = "Cancel",
+    confirmText: String = "Ok"
+) {
+    var indices by remember(key) { mutableStateOf(initialIndices) }
+    val preferences = LocalPreferenceHandler.current
+    LaunchedEffect(key) {
+        indices = preferences.getIntList(key).toSet()
+    }
+    MultiSelectListPreference(
+        title = title,
+        indices = indices,
+        entries = entries,
+        onValuesChanged = {
+            indices = it
+            preferences.putIntList(key, indices.toList())
+        },
+        modifier = modifier,
+        summary = summary,
+        valueDisplayLimit = valueDisplayLimit,
+        icon = icon,
+        enabled = enabled,
+        dismissText = dismissText,
+        confirmText = confirmText,
+    )
 }

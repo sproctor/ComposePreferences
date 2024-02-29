@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,17 +24,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
-public fun EditTextPreference(
-    title: String,
-    summary: String? = null,
-    value: String?,
-    onValueChanged: (String) -> Unit = {},
-    singleLineTitle: Boolean = true,
+public fun TextPreference(
+    title: @Composable () -> Unit,
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    summary: @Composable () -> Unit = {},
     icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    dismissText: String = "CANCEL",
+    dismissText: String = "Cancel",
     confirmText: String = "OK",
 ) {
     val showDialog = remember { mutableStateOf(false) }
@@ -41,18 +42,24 @@ public fun EditTextPreference(
 
     val text = if (isPassword) "(hidden)" else value
     Preference(
+        modifier = modifier,
         title = title,
-        summary = text?.ifBlank { null } ?: summary,
-        singleLineTitle = singleLineTitle,
+        summary = {
+            if (text.isBlank()) {
+                summary()
+            } else {
+                Text(text)
+            }
+        },
         icon = icon,
         enabled = enabled,
         onClick = { showDialog.value = true },
     )
 
     if (showDialog.value) {
-        EditTextDialog(
+        TextDialog(
             title = title,
-            value = value ?: "",
+            value = value,
             isPassword = isPassword,
             keyboardOptions = keyboardOptions,
             onDismissRequest = closeDialog,
@@ -64,8 +71,45 @@ public fun EditTextPreference(
 }
 
 @Composable
-private fun EditTextDialog(
-    title: String,
+public fun TextPreference(
+    title: @Composable () -> Unit,
+    key: String,
+    modifier: Modifier = Modifier,
+    initialValue: String = "",
+    summary: @Composable () -> Unit = {},
+    icon: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
+    isPassword: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    dismissText: String = "Cancel",
+    confirmText: String = "OK",
+) {
+    var value by remember(key) { mutableStateOf(initialValue) }
+    val preferences = LocalPreferenceHandler.current
+    LaunchedEffect(key) {
+        value = preferences.getString(key)
+    }
+    TextPreference(
+        title = title,
+        value = value,
+        onValueChanged = {
+            value = it
+            preferences.putString(key, it)
+        },
+        modifier = modifier,
+        summary = summary,
+        icon = icon,
+        enabled = enabled,
+        isPassword = isPassword,
+        keyboardOptions = keyboardOptions,
+        dismissText = dismissText,
+        confirmText = confirmText,
+    )
+}
+
+@Composable
+private fun TextDialog(
+    title: @Composable () -> Unit,
     value: String,
     isPassword: Boolean,
     keyboardOptions: KeyboardOptions,

@@ -44,8 +44,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":compose-preferences"))
-                implementation(project(":compose-preferences-settings"))
                 implementation(compose.material3)
+                implementation(libs.settings)
+                implementation(libs.settings.coroutines)
             }
         }
         val androidMain by getting {

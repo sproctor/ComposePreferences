@@ -10,23 +10,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
+// TODO: Allow picking between radio buttons, dialog, and dropdown
 @Composable
 public fun ListPreference(
-    title: String,
-    summary: String? = null,
-    value: String?,
-    onValueChanged: (String?) -> Unit = {},
-    singleLineTitle: Boolean = true,
+    title: @Composable () -> Unit,
+    index: Int,
+    entries: List<String>,
+    onValueChanged: (Int) -> Unit,
+    modifier: Modifier = Modifier,
     icon: (@Composable () -> Unit)? = null,
-    entries: Map<String?, String>,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
     confirmText: String = "OK",
@@ -35,23 +37,25 @@ public fun ListPreference(
     var showDialog by remember { mutableStateOf(false) }
 
     Preference(
+        modifier = modifier,
         title = title,
-        summary = entries[value] ?: summary,
-        singleLineTitle = singleLineTitle,
+        summary = {
+            Text(entries[index])
+        },
         icon = icon,
         enabled = enabled,
         onClick = { showDialog = true },
     )
 
     if (showDialog) {
-        var selectedValue by remember(value) { mutableStateOf(value) }
+        var selectedIndex by remember(index) { mutableStateOf(index) }
         PreferenceDialog(
             onDismiss = { showDialog = false },
             title = title,
             dismissText = dismissText,
             confirmText = confirmText,
             onConfirm = {
-                onValueChanged(selectedValue)
+                onValueChanged(selectedIndex)
                 showDialog = false
             }
         ) {
@@ -65,23 +69,25 @@ public fun ListPreference(
                         )
                     }
                 }
-                entries.forEach { current ->
-                    val isSelected = selectedValue == current.key
-                    Row(Modifier
-                        .fillMaxWidth()
-                        .selectable(
-                            selected = isSelected,
-                            onClick = { selectedValue = current.key }
-                        )
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                entries.forEachIndexed { index, label ->
+                    val isSelected = selectedIndex == index
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = isSelected,
+                                onClick = { selectedIndex = index },
+                                role = Role.RadioButton
+                            )
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(
                             selected = isSelected,
-                            onClick = { selectedValue = current.key }
+                            onClick = null
                         )
                         Text(
-                            text = current.value,
+                            text = label,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.padding(start = 16.dp)
                         )
@@ -90,4 +96,39 @@ public fun ListPreference(
             }
         }
     }
+}
+
+@Composable
+public fun ListPreference(
+    title: @Composable () -> Unit,
+    key: String,
+    entries: List<String>,
+    modifier: Modifier = Modifier,
+    initialIndex: Int = 0,
+    icon: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
+    dismissText: String = "CANCEL",
+    confirmText: String = "OK",
+    emptyText: String? = null,
+) {
+    var index by remember(key) { mutableStateOf(initialIndex) }
+    val preferences = LocalPreferenceHandler.current
+    LaunchedEffect(key) {
+        index = preferences.getInt(key)
+    }
+    ListPreference(
+        title = title,
+        index = index,
+        entries = entries,
+        onValueChanged = {
+            index = it
+            preferences.putInt(key, it)
+        },
+        modifier = modifier,
+        icon = icon,
+        enabled = enabled,
+        dismissText = dismissText,
+        confirmText = confirmText,
+        emptyText = emptyText,
+    )
 }

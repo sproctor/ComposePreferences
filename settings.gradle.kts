@@ -15,7 +15,6 @@ plugins {
 
 include(":app")
 include(":compose-preferences")
-include(":compose-preferences-settings")
 
 // work-around https://github.com/Splitties/refreshVersions/issues/640
 refreshVersions {

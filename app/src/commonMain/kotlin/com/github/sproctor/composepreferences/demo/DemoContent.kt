@@ -1,91 +1,177 @@
 package com.github.sproctor.composepreferences.demo
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.github.sproctor.composepreferences.settings.*
+import com.github.sproctor.composepreferences.ListPreference
+import com.github.sproctor.composepreferences.LocalPreferenceHandler
+import com.github.sproctor.composepreferences.MultiSelectListPreference
+import com.github.sproctor.composepreferences.PreferenceGroup
+import com.github.sproctor.composepreferences.PreferenceHandler
+import com.github.sproctor.composepreferences.SeekBarPreference
+import com.github.sproctor.composepreferences.SwitchPreference
+import com.github.sproctor.composepreferences.TextPreference
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.coroutines.SuspendSettings
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalSettingsApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSettingsApi::class)
 @Composable
-fun DemoContent(settings: FlowSettings) {
+fun DemoContent(settings: SuspendSettings) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Compose Preferences Demo") }
             )
         }
-    ) {
-        PreferenceScreen(
-            modifier = Modifier.padding(it),
-            settings = settings,
-            items = listOf(
-                TextPreferenceItem(
-                    title = "Text Preference",
-                    summary = "No value entered",
+    ) { contentPadding ->
+        val singleSelectEntries = listOf(
+            "id1" to "Item1",
+            "id2" to "Item2"
+        )
+        val multiSelectEntries = listOf(
+            "id1" to "Item1",
+            "id2" to "Item2",
+            "id3" to "Item3",
+        )
+        val scope = rememberCoroutineScope()
+        CompositionLocalProvider(
+            LocalPreferenceHandler provides object : PreferenceHandler {
+                override fun putString(key: String, value: String) {
+                    scope.launch {
+                        settings.putString(key, value)
+                    }
+                }
+
+                override fun putBoolean(key: String, value: Boolean) {
+                    scope.launch {
+                        settings.putBoolean(key, value)
+                    }
+                }
+
+                override fun putFloat(key: String, value: Float) {
+                    scope.launch {
+                        settings.putFloat(key, value)
+                    }
+                }
+
+                override fun putInt(key: String, value: Int) {
+                    val stringValue = when (key) {
+                        "pref_list" -> singleSelectEntries[value].first
+                        else -> error("invalid key")
+                    }
+                    scope.launch {
+                        settings.putString(key, stringValue)
+                    }
+                }
+
+                override fun putIntList(key: String, values: List<Int>) {
+                    val stringValue = when (key) {
+                        "pref_multi_list" -> values.joinToString(",") {
+                            multiSelectEntries[it].first
+                        }
+
+                        else -> error("invalid key")
+                    }
+                    scope.launch {
+                        settings.putString(key, stringValue)
+                    }
+                }
+
+                override suspend fun getString(key: String): String {
+                    return settings.getString(key, "")
+                }
+
+                override suspend fun getBoolean(key: String): Boolean {
+                    return settings.getBoolean(key, false)
+                }
+
+                override suspend fun getFloat(key: String): Float {
+                    return settings.getFloat(key, 0f)
+                }
+
+                override suspend fun getInt(key: String): Int {
+                    val storedValue = settings.getStringOrNull(key) ?: return 0
+                    val index = when (key) {
+                        "pref_list" -> singleSelectEntries.indexOfFirst { it.first == storedValue }
+                        else -> error("invalid key")
+                    }
+                    return if (index == -1) 0 else index
+                }
+
+                override suspend fun getIntList(key: String): List<Int> {
+                    val storedValue = settings.getStringOrNull(key) ?: return emptyList()
+                    val indices = when (key) {
+                        "pref_multi_list" -> storedValue.split(",")
+                            .map { id -> multiSelectEntries.indexOfFirst { it.first == id } }
+
+                        else -> error("invalid key")
+                    }
+                    return indices.filter { it != -1 }
+                }
+            }
+        ) {
+            Column(Modifier.padding(contentPadding)) {
+                TextPreference(
+                    title = { Text("Text Preference") },
+                    summary = { Text("No value entered") },
                     key = "pref_string",
                     icon = { Icon(Icons.Outlined.Edit, null) }
-                ),
-                TextPreferenceItem(
-                    title = "Password Preference",
-                    summary = "No password",
+                )
+                TextPreference(
+                    title = { Text("Password Preference") },
+                    summary = { Text("No password") },
                     key = "pref_password",
                     icon = { Icon(Icons.Default.Lock, null) },
                     isPassword = true
-                ),
-                SwitchPreferenceItem(
-                    title = "Switch Preference",
-                    summary = "A preference with a switch.",
+                )
+                SwitchPreference(
+                    title = { Text("Switch Preference") },
+                    summary = { Text("A preference with a switch.") },
                     key = "pref_switch",
-                ),
-                PreferenceGroupItem(
-                    title = "List Preferences",
-                    items = listOf(
-                        SingleListPreferenceItem(
-                            title = "List Preference",
-                            summary = "Select one item from a list in a dialog",
-                            key = "pref_list",
-                            singleLineTitle = true,
-                            icon = { Icon(Icons.Outlined.List, null) },
-                            entries = mapOf(
-                                "key1" to "Item1",
-                                "key2" to "Item2"
-                            ),
-                        ),
-                        MultiListPreferenceItem(
-                            title = "MultiSelect List Preference With a Super Long Title That Will Cause The Title to Wrap Around And Start On a Second Line",
-                            summary = "Select multiple items from a list in a dialog",
-                            key = "pref_multi_list",
-                            singleLineTitle = false,
-                            icon = { Icon(Icons.Outlined.List, null) },
-                            entries = mapOf(
-                                "key1" to "Item1",
-                                "key2" to "Item2",
-                                "key3" to "Item3",
-                            ),
-                        ),
+                )
+                PreferenceGroup(
+                    title = { Text("List Preferences") }
+                ) {
+                    ListPreference(
+                        title = { Text("List Preference") },
+                        key = "pref_list",
+                        icon = { Icon(Icons.AutoMirrored.Outlined.List, null) },
+                        entries = singleSelectEntries.map { it.second },
                     )
-                ),
-                PreferenceDivider,
-                SeekbarPreferenceItem(
-                    title = "Seekbar Preference",
-                    summary = "Select a value on a seekbar",
+                    MultiSelectListPreference(
+                        title = { Text("MultiSelect List Preference") },
+                        summary = { Text("Select multiple items from a list in a dialog") },
+                        key = "pref_multi_list",
+                        icon = { Icon(Icons.AutoMirrored.Outlined.List, null) },
+                        entries = multiSelectEntries.map { it.second },
+                    )
+                }
+                HorizontalDivider()
+                SeekBarPreference(
+                    title = { Text("Seekbar Preference") },
                     key = "pref_seek",
-                    defaultValue = 50F,
                     icon = { Icon(Icons.Outlined.AccountCircle, null) },
-                    steps = 4,
-                    valueRange = 50F..100F,
+                    steps = 9,
+                    valueRange = 0f..100f,
                     valueRepresentation = { value -> "${value.roundToInt()} %" }
                 )
-            )
-        )
+            }
+        }
     }
 }

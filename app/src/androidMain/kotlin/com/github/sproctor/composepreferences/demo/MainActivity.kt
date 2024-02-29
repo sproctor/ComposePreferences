@@ -14,9 +14,7 @@ import com.russhwolf.settings.datastore.DataStoreSettings
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : ComponentActivity() {
-    @OptIn(
-        ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class
-    )
+    @OptIn(ExperimentalSettingsApi::class, ExperimentalSettingsImplementation::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val settings = DataStoreSettings(dataStore)

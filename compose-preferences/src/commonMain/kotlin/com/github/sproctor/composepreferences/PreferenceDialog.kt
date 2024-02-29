@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun PreferenceDialog(
-    title: String,
+    title: @Composable () -> Unit,
     onDismiss: () -> Unit,
     onConfirm: (() -> Unit),
     confirmText: String,
@@ -26,9 +26,7 @@ internal fun PreferenceDialog(
                 Text(dismissText)
             }
         },
-        title = {
-            Text(text = title)
-        },
+        title = title,
         text = content,
     )
 }
