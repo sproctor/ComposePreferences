@@ -13,7 +13,7 @@ kotlin {
         publishLibraryVariants("release")
     }
     jvm()
-    js(IR) {
+    js {
         browser()
     }
 

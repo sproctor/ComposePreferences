@@ -30,12 +30,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlin {
     androidTarget()
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
-    js(IR) {
+    jvm()
+    js {
         browser()
         binaries.executable()
     }
@@ -62,6 +58,8 @@ kotlin {
             }
         }
     }
+
+    jvmToolchain(11)
 }
 
 compose {
