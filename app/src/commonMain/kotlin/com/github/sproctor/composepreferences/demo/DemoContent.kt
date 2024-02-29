@@ -40,15 +40,6 @@ fun DemoContent(settings: SuspendSettings) {
             )
         }
     ) { contentPadding ->
-        val singleSelectEntries = listOf(
-            "id1" to "Item1",
-            "id2" to "Item2"
-        )
-        val multiSelectEntries = listOf(
-            "id1" to "Item1",
-            "id2" to "Item2",
-            "id3" to "Item3",
-        )
         val scope = rememberCoroutineScope()
         CompositionLocalProvider(
             LocalPreferenceHandler provides object : PreferenceHandler {
@@ -70,26 +61,9 @@ fun DemoContent(settings: SuspendSettings) {
                     }
                 }
 
-                override fun putInt(key: String, value: Int) {
-                    val stringValue = when (key) {
-                        "pref_list" -> singleSelectEntries[value].first
-                        else -> error("invalid key")
-                    }
+                override fun putList(key: String, values: List<String>) {
                     scope.launch {
-                        settings.putString(key, stringValue)
-                    }
-                }
-
-                override fun putIntList(key: String, values: List<Int>) {
-                    val stringValue = when (key) {
-                        "pref_multi_list" -> values.joinToString(",") {
-                            multiSelectEntries[it].first
-                        }
-
-                        else -> error("invalid key")
-                    }
-                    scope.launch {
-                        settings.putString(key, stringValue)
+                        settings.putString(key, values.joinToString(","))
                     }
                 }
 
@@ -105,24 +79,8 @@ fun DemoContent(settings: SuspendSettings) {
                     return settings.getFloat(key, 0f)
                 }
 
-                override suspend fun getInt(key: String): Int {
-                    val storedValue = settings.getStringOrNull(key) ?: return 0
-                    val index = when (key) {
-                        "pref_list" -> singleSelectEntries.indexOfFirst { it.first == storedValue }
-                        else -> error("invalid key")
-                    }
-                    return if (index == -1) 0 else index
-                }
-
-                override suspend fun getIntList(key: String): List<Int> {
-                    val storedValue = settings.getStringOrNull(key) ?: return emptyList()
-                    val indices = when (key) {
-                        "pref_multi_list" -> storedValue.split(",")
-                            .map { id -> multiSelectEntries.indexOfFirst { it.first == id } }
-
-                        else -> error("invalid key")
-                    }
-                    return indices.filter { it != -1 }
+                override suspend fun getList(key: String): List<String> {
+                    return settings.getStringOrNull(key)?.split(",") ?: emptyList()
                 }
             }
         ) {
@@ -152,14 +110,21 @@ fun DemoContent(settings: SuspendSettings) {
                         title = { Text("List Preference") },
                         key = "pref_list",
                         icon = { Icon(Icons.AutoMirrored.Outlined.List, null) },
-                        entries = singleSelectEntries.map { it.second },
+                        entries = listOf(
+                            "id1" to "Item1",
+                            "id2" to "Item2"
+                        ),
                     )
                     MultiSelectListPreference(
                         title = { Text("MultiSelect List Preference") },
                         summary = { Text("Select multiple items from a list in a dialog") },
                         key = "pref_multi_list",
                         icon = { Icon(Icons.AutoMirrored.Outlined.List, null) },
-                        entries = multiSelectEntries.map { it.second },
+                        entries = listOf(
+                            "id1" to "Item1",
+                            "id2" to "Item2",
+                            "id3" to "Item3",
+                        ),
                     )
                 }
                 HorizontalDivider()

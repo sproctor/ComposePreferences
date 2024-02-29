@@ -107,7 +107,7 @@ public fun MultiSelectListPreference(
 public fun MultiSelectListPreference(
     title: @Composable () -> Unit,
     key: String,
-    entries: List<String>,
+    entries: List<Pair<String, String>>,
     modifier: Modifier = Modifier,
     initialIndices: Set<Int> = emptySet(),
     summary: @Composable () -> Unit = {},
@@ -120,15 +120,18 @@ public fun MultiSelectListPreference(
     var indices by remember(key) { mutableStateOf(initialIndices) }
     val preferences = LocalPreferenceHandler.current
     LaunchedEffect(key) {
-        indices = preferences.getIntList(key).toSet()
+        indices = preferences.getList(key)
+            .map { id -> entries.indexOfFirst { it.first == id } }
+            .filter { it != -1 }
+            .toSet()
     }
     MultiSelectListPreference(
         title = title,
         indices = indices,
-        entries = entries,
+        entries = entries.map { it.second },
         onValuesChanged = {
             indices = it
-            preferences.putIntList(key, indices.toList())
+            preferences.putList(key, indices.map { index -> entries[index].first })
         },
         modifier = modifier,
         summary = summary,

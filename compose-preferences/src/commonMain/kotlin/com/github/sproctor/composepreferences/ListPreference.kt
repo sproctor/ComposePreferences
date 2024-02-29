@@ -102,7 +102,7 @@ public fun ListPreference(
 public fun ListPreference(
     title: @Composable () -> Unit,
     key: String,
-    entries: List<String>,
+    entries: List<Pair<String, String>>,
     modifier: Modifier = Modifier,
     initialIndex: Int = 0,
     icon: (@Composable () -> Unit)? = null,
@@ -114,15 +114,19 @@ public fun ListPreference(
     var index by remember(key) { mutableStateOf(initialIndex) }
     val preferences = LocalPreferenceHandler.current
     LaunchedEffect(key) {
-        index = preferences.getInt(key)
+        val id = preferences.getString(key)
+        val storedIndex = entries.indexOfFirst { it.first == id }
+        if (storedIndex != -1) {
+            index = storedIndex
+        }
     }
     ListPreference(
         title = title,
         index = index,
-        entries = entries,
+        entries = entries.map { it.second },
         onValueChanged = {
             index = it
-            preferences.putInt(key, it)
+            preferences.putString(key, entries[it].first)
         },
         modifier = modifier,
         icon = icon,
