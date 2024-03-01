@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 public fun ListPreference(
     title: @Composable () -> Unit,
-    index: Int,
     entries: List<String>,
     onValueChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    index: Int? = null,
     icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
@@ -40,7 +40,9 @@ public fun ListPreference(
         modifier = modifier,
         title = title,
         summary = {
-            Text(entries[index])
+            if (index != null) {
+                Text(entries[index])
+            }
         },
         icon = icon,
         enabled = enabled,
@@ -55,7 +57,7 @@ public fun ListPreference(
             dismissText = dismissText,
             confirmText = confirmText,
             onConfirm = {
-                onValueChanged(selectedIndex)
+                selectedIndex?.let { onValueChanged(it) }
                 showDialog = false
             }
         ) {
@@ -104,7 +106,7 @@ public fun ListPreference(
     key: String,
     entries: List<Pair<String, String>>,
     modifier: Modifier = Modifier,
-    initialIndex: Int = 0,
+    initialIndex: Int? = null,
     icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
     dismissText: String = "CANCEL",
