@@ -119,7 +119,7 @@ public fun MultiSelectListPreference(
 ) {
     var indices by remember(key) { mutableStateOf(initialIndices) }
     val preferences = LocalPreferenceHandler.current
-    LaunchedEffect(key) {
+    LaunchedEffect(key, entries) {
         indices = preferences.getList(key)
             .map { id -> entries.indexOfFirst { it.first == id } }
             .filter { it != -1 }

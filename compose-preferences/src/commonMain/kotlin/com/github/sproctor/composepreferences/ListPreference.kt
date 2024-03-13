@@ -115,7 +115,8 @@ public fun ListPreference(
 ) {
     var index by remember(key) { mutableStateOf(initialIndex) }
     val preferences = LocalPreferenceHandler.current
-    LaunchedEffect(key) {
+    // Entries might be late loading, so recheck the saved value on change
+    LaunchedEffect(key, entries) {
         val id = preferences.getString(key)
         val storedIndex = entries.indexOfFirst { it.first == id }
         if (storedIndex != -1) {
