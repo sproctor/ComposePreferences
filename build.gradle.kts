@@ -3,15 +3,15 @@ import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.compose) apply false
+    alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.vanniktech) apply false
 }
 
 tasks.wrapper {
-    gradleVersion = "8.6"
+    gradleVersion = "8.8"
 }
 
 allprojects {
@@ -24,14 +24,6 @@ allprojects {
     // Credentials must be added to ~/.gradle/gradle.properties per
     // https://vanniktech.github.io/gradle-maven-publish-plugin/central/#secrets
     plugins.withId("com.vanniktech.maven.publish.base") {
-        configure<PublishingExtension> {
-            repositories {
-                maven {
-                    name = "testMaven"
-                    url = file("${rootProject.buildDir}/testMaven").toURI()
-                }
-            }
-        }
         @Suppress("UnstableApiUsage")
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(SonatypeHost.S01)
