@@ -1,7 +1,8 @@
 plugins {
-    id("com.android.application")
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -19,12 +20,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
@@ -67,8 +62,5 @@ compose {
         application {
             mainClass = "com.github.sproctor.composepreferences.demo.MainKt"
         }
-    }
-    experimental {
-        web.application {}
     }
 }
