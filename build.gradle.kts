@@ -24,7 +24,6 @@ allprojects {
     // Credentials must be added to ~/.gradle/gradle.properties per
     // https://vanniktech.github.io/gradle-maven-publish-plugin/central/#secrets
     plugins.withId("com.vanniktech.maven.publish.base") {
-        @Suppress("UnstableApiUsage")
         configure<MavenPublishBaseExtension> {
             publishToMavenCentral(SonatypeHost.S01)
             signAllPublications()
