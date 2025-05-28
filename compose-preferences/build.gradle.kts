@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -17,6 +21,12 @@ kotlin {
     js {
         browser()
     }
+    wasmJs {
+        browser()
+    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     explicitApi()
 
@@ -35,7 +45,7 @@ kotlin {
 
 android {
     namespace = "com.seanproctor.composepreferences"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
