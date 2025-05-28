@@ -85,4 +85,5 @@ app/release/*
 .idea/AndroidProjectSystem.xml
 .idea/graphql-settings.xml
 .idea/runConfigurations.xml
+.idea/deploymentTargetSelector.xml
 .kotlin
