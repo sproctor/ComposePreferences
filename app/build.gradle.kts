@@ -36,6 +36,7 @@ kotlin {
             dependencies {
                 implementation(project(":compose-preferences"))
                 implementation(compose.material3)
+                implementation(libs.material.icons)
                 implementation(libs.settings)
                 implementation(libs.settings.coroutines)
             }
