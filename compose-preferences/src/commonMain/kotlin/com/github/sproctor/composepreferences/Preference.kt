@@ -12,11 +12,17 @@ public fun Preference(
     summary: @Composable () -> Unit = {},
     icon: (@Composable () -> Unit)? = null,
     enabled: Boolean = true,
-    onClick: () -> Unit = { },
+    onClick: (() -> Unit)? = null,
     trailing: @Composable (() -> Unit)? = null
 ) {
     ListItem(
-        modifier = modifier.clickable(enabled) { onClick() },
+        modifier = modifier.then(
+            if (onClick != null) {
+                Modifier.clickable(enabled = enabled, onClick = onClick)
+            } else {
+                Modifier
+            }
+        ),
         headlineContent = title,
         supportingContent = summary,
         leadingContent = icon,
